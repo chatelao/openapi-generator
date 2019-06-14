@@ -10,13 +10,12 @@ import javax.validation.constraints.*;
 import io.swagger.annotations.*;
 
 @ApiModel(description="A category for a pet")
-
 public class Category   {
   
 
-  private Long id = null;
+  private Long id;
 
-  private String name = null;
+  private String name;
 
   /**
    **/

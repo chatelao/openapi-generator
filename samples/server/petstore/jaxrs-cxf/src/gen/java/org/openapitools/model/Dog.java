@@ -1,6 +1,7 @@
 package org.openapitools.model;
 
 import org.openapitools.model.Animal;
+import org.openapitools.model.DogAllOf;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -17,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Dog extends Animal {
   
   @ApiModelProperty(value = "")
-  private String breed = null;
+  private String breed;
  /**
    * Get breed
    * @return breed

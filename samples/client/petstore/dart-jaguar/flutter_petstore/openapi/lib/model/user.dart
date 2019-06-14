@@ -1,5 +1,6 @@
 import 'package:jaguar_serializer/jaguar_serializer.dart';
 
+
 part 'user.jser.dart';
 
 class User {
@@ -30,7 +31,7 @@ class User {
   
 
   User(
-    
+      
 
 {
      this.id = null,  
@@ -51,7 +52,8 @@ class User {
   }
 }
 
-@GenSerializer()
+@GenSerializer(nullableFields: true)
 class UserSerializer extends Serializer<User> with _$UserSerializer {
 
 }
+

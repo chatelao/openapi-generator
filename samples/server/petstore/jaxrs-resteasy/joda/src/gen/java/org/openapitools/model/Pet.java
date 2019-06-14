@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
@@ -13,12 +15,11 @@ import javax.validation.constraints.*;
 import io.swagger.annotations.*;
 
 @ApiModel(description="A pet for sale in the pet store")
-
 public class Pet   {
   
-  private Long id = null;
+  private Long id;
   private Category category = null;
-  private String name = null;
+  private String name;
   private List<String> photoUrls = new ArrayList<String>();
   private List<Tag> tags = new ArrayList<Tag>();
 
@@ -44,7 +45,7 @@ public class Pet   {
     }
   }
 
-  private StatusEnum status = null;
+  private StatusEnum status;
 
   /**
    **/

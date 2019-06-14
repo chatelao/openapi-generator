@@ -16,12 +16,11 @@ import java.util.Objects;
 import javax.xml.bind.annotation.*;
 
 @ApiModel(description = "A tag for a pet")
-
 public class Tag   {
   
-  private Long id = null;
+  private Long id;
 
-  private String name = null;
+  private String name;
 
 
   /**

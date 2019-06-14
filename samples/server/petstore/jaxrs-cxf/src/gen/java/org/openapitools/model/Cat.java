@@ -1,6 +1,7 @@
 package org.openapitools.model;
 
 import org.openapitools.model.Animal;
+import org.openapitools.model.CatAllOf;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -17,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Cat extends Animal {
   
   @ApiModelProperty(value = "")
-  private Boolean declawed = null;
+  private Boolean declawed;
  /**
    * Get declawed
    * @return declawed

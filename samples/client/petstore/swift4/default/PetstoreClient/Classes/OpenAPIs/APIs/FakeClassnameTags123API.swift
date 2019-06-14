@@ -5,18 +5,20 @@
 // https://openapi-generator.tech
 //
 
-import Alamofire
 import Foundation
+import Alamofire
+
+
 
 open class FakeClassnameTags123API {
     /**
      To test class name in snake case
-
-     - parameter client: (body) client model
+     
+     - parameter body: (body) client model 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func testClassname(client: Client, completion: @escaping ((_ data: Client?, _ error: Error?) -> Void)) {
-        testClassnameWithRequestBuilder(client: client).execute { (response, error) -> Void in
+    open class func testClassname(body: Client, completion: @escaping ((_ data: Client?,_ error: Error?) -> Void)) {
+        testClassnameWithRequestBuilder(body: body).execute { (response, error) -> Void in
             completion(response?.body, error)
         }
     }
@@ -26,15 +28,15 @@ open class FakeClassnameTags123API {
      - PATCH /fake_classname_test
      - To test class name in snake case
      - API Key:
-     - type: apiKey api_key_query (QUERY)
-     - name: api_key_query
-     - parameter client: (body) client model
-     - returns: RequestBuilder<Client>
+       - type: apiKey api_key_query (QUERY)
+       - name: api_key_query
+     - parameter body: (body) client model 
+     - returns: RequestBuilder<Client> 
      */
-    open class func testClassnameWithRequestBuilder(client: Client) -> RequestBuilder<Client> {
+    open class func testClassnameWithRequestBuilder(body: Client) -> RequestBuilder<Client> {
         let path = "/fake_classname_test"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: client)
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let url = URLComponents(string: URLString)
 
@@ -42,4 +44,5 @@ open class FakeClassnameTags123API {
 
         return requestBuilder.init(method: "PATCH", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }
+
 }

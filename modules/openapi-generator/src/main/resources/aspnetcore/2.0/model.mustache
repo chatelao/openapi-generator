@@ -26,7 +26,7 @@ namespace {{packageName}}.Models
         {{#required}}
         [Required]
         {{/required}}
-        [DataMember(Name="{{baseName}}")]
+        [DataMember(Name="{{baseName}}", EmitDefaultValue={{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}})]
         {{#isEnum}}
         public {{{datatypeWithEnum}}}{{#isEnum}}{{^isContainer}}?{{/isContainer}}{{/isEnum}} {{name}} { get; set; }
         {{/isEnum}}
@@ -83,17 +83,18 @@ namespace {{packageName}}.Models
             if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;
 
-            return {{#vars}}{{#isNotContainer}}
+            return {{#vars}}{{^isContainer}}
                 (
                     {{name}} == other.{{name}} ||
                     {{name}} != null &&
                     {{name}}.Equals(other.{{name}})
-                ){{#hasMore}} && {{/hasMore}}{{/isNotContainer}}{{^isNotContainer}}
+                ){{#hasMore}} && {{/hasMore}}{{/isContainer}}{{#isContainer}}
                 (
                     {{name}} == other.{{name}} ||
                     {{name}} != null &&
+                    other.{{name}} != null &&
                     {{name}}.SequenceEqual(other.{{name}})
-                ){{#hasMore}} && {{/hasMore}}{{/isNotContainer}}{{/vars}}{{^vars}}false{{/vars}};
+                ){{#hasMore}} && {{/hasMore}}{{/isContainer}}{{/vars}}{{^vars}}false{{/vars}};
         }
 
         /// <summary>

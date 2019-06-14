@@ -1,7 +1,10 @@
 import 'package:jaguar_serializer/jaguar_serializer.dart';
 
+
 import 'package:openapi/model/tag.dart';
+
 import 'package:openapi/model/category.dart';
+
 part 'pet.jser.dart';
 
 class Pet {
@@ -26,7 +29,7 @@ class Pet {
   //enum statusEnum {  available,  pending,  sold,  };
 
   Pet(
-    
+      
 
 {
      this.id = null,  
@@ -45,7 +48,8 @@ class Pet {
   }
 }
 
-@GenSerializer()
+@GenSerializer(nullableFields: true)
 class PetSerializer extends Serializer<Pet> with _$PetSerializer {
 
 }
+

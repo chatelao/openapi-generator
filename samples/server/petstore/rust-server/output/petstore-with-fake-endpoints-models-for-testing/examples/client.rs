@@ -116,7 +116,7 @@ fn main() {
     };
 
     let context: make_context_ty!(ContextBuilder, EmptyContext, Option<AuthData>, XSpanIdString) =
-        make_context!(ContextBuilder, EmptyContext, None, XSpanIdString(self::uuid::Uuid::new_v4().to_string()));
+        make_context!(ContextBuilder, EmptyContext, None as Option<AuthData>, XSpanIdString(self::uuid::Uuid::new_v4().to_string()));
     let client = client.with_context(context);
 
     match matches.value_of("operation") {
@@ -128,7 +128,7 @@ fn main() {
         //  },
 
         Some("FakeOuterBooleanSerialize") => {
-            let result = core.run(client.fake_outer_boolean_serialize(Some(true)));
+            let result = core.run(client.fake_outer_boolean_serialize(None));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
          },
 
@@ -138,12 +138,12 @@ fn main() {
          },
 
         Some("FakeOuterNumberSerialize") => {
-            let result = core.run(client.fake_outer_number_serialize(Some(1.2)));
+            let result = core.run(client.fake_outer_number_serialize(None));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
          },
 
         Some("FakeOuterStringSerialize") => {
-            let result = core.run(client.fake_outer_string_serialize(Some("body_example".to_string())));
+            let result = core.run(client.fake_outer_string_serialize(None));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
          },
 

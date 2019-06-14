@@ -9,13 +9,13 @@ using Newtonsoft.Json;
 
 {{#models}}
 {{#model}}
-namespace {{packageName}}.Models
+namespace {{modelPackage}}
 { {{#isEnum}}{{>enumClass}}{{/isEnum}}{{^isEnum}}
     /// <summary>
     /// {{description}}
     /// </summary>
     [DataContract]
-    public partial class {{classname}} : {{#parent}}{{{parent}}}, {{/parent}}IEquatable<{{classname}}>
+    public {{#modelClassModifier}}{{modelClassModifier}} {{/modelClassModifier}}class {{classname}} : {{#parent}}{{{parent}}}, {{/parent}}IEquatable<{{classname}}>
     { {{#vars}}{{#isEnum}}{{>enumClass}}{{/isEnum}}{{#items.isEnum}}{{#items}}{{>enumClass}}{{/items}}{{/items.isEnum}}
         /// <summary>
         /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{description}}{{/description}}
@@ -26,7 +26,10 @@ namespace {{packageName}}.Models
         {{#required}}
         [Required]
         {{/required}}
-        [DataMember(Name="{{baseName}}")]
+        {{#pattern}}
+        [RegularExpression("{{{pattern}}}")]
+        {{/pattern}}
+        [DataMember(Name="{{baseName}}", EmitDefaultValue={{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}})]
         {{#isEnum}}
         public {{{datatypeWithEnum}}}{{#isEnum}}{{^isContainer}}?{{/isContainer}}{{/isEnum}} {{name}} { get; set; }
         {{/isEnum}}
@@ -83,17 +86,18 @@ namespace {{packageName}}.Models
             if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;
 
-            return {{#vars}}{{#isNotContainer}}
+            return {{#vars}}{{^isContainer}}
                 (
                     {{name}} == other.{{name}} ||
-                    {{name}} != null &&
+                    {{^vendorExtensions.isValueType}}{{name}} != null &&{{/vendorExtensions.isValueType}}
                     {{name}}.Equals(other.{{name}})
-                ){{#hasMore}} && {{/hasMore}}{{/isNotContainer}}{{^isNotContainer}}
+                ){{#hasMore}} && {{/hasMore}}{{/isContainer}}{{#isContainer}}
                 (
                     {{name}} == other.{{name}} ||
-                    {{name}} != null &&
-                    {{name}}.SequenceEqual(other.{{name}})
-                ){{#hasMore}} && {{/hasMore}}{{/isNotContainer}}{{/vars}}{{^vars}}false{{/vars}};
+                    {{^vendorExtensions.isValueType}}{{name}} != null &&
+                    other.{{name}} != null &&
+                    {{/vendorExtensions.isValueType}}{{name}}.SequenceEqual(other.{{name}})
+                ){{#hasMore}} && {{/hasMore}}{{/isContainer}}{{/vars}}{{^vars}}false{{/vars}};
         }
 
         /// <summary>
@@ -107,7 +111,7 @@ namespace {{packageName}}.Models
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
                 {{#vars}}
-                    if ({{name}} != null)
+                    {{^vendorExtensions.isValueType}}if ({{name}} != null){{/vendorExtensions.isValueType}}
                     hashCode = hashCode * 59 + {{name}}.GetHashCode();
                 {{/vars}}
                 return hashCode;

@@ -1,5 +1,6 @@
 import 'package:jaguar_serializer/jaguar_serializer.dart';
 
+
 part 'tag.jser.dart';
 
 class Tag {
@@ -12,7 +13,7 @@ class Tag {
   
 
   Tag(
-    
+      
 
 {
      this.id = null,  
@@ -27,7 +28,8 @@ class Tag {
   }
 }
 
-@GenSerializer()
+@GenSerializer(nullableFields: true)
 class TagSerializer extends Serializer<Tag> with _$TagSerializer {
 
 }
+

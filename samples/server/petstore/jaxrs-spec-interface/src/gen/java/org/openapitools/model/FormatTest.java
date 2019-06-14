@@ -21,19 +21,19 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public class FormatTest  implements Serializable {
   
-  private @Valid Integer integer = null;
-  private @Valid Integer int32 = null;
-  private @Valid Long int64 = null;
-  private @Valid BigDecimal number = null;
-  private @Valid Float _float = null;
-  private @Valid Double _double = null;
-  private @Valid String string = null;
-  private @Valid byte[] _byte = null;
-  private @Valid File binary = null;
-  private @Valid LocalDate date = null;
-  private @Valid Date dateTime = null;
-  private @Valid UUID uuid = null;
-  private @Valid String password = null;
+  private @Valid Integer integer;
+  private @Valid Integer int32;
+  private @Valid Long int64;
+  private @Valid BigDecimal number;
+  private @Valid Float _float;
+  private @Valid Double _double;
+  private @Valid String string;
+  private @Valid byte[] _byte;
+  private @Valid File binary;
+  private @Valid LocalDate date;
+  private @Valid Date dateTime;
+  private @Valid UUID uuid;
+  private @Valid String password;
 
   /**
    * minimum: 10
@@ -243,7 +243,7 @@ public class FormatTest  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
   @JsonProperty("uuid")
   public UUID getUuid() {
     return uuid;
@@ -280,19 +280,19 @@ public class FormatTest  implements Serializable {
       return false;
     }
     FormatTest formatTest = (FormatTest) o;
-    return Objects.equals(integer, formatTest.integer) &&
-        Objects.equals(int32, formatTest.int32) &&
-        Objects.equals(int64, formatTest.int64) &&
-        Objects.equals(number, formatTest.number) &&
-        Objects.equals(_float, formatTest._float) &&
-        Objects.equals(_double, formatTest._double) &&
-        Objects.equals(string, formatTest.string) &&
-        Objects.equals(_byte, formatTest._byte) &&
-        Objects.equals(binary, formatTest.binary) &&
-        Objects.equals(date, formatTest.date) &&
-        Objects.equals(dateTime, formatTest.dateTime) &&
-        Objects.equals(uuid, formatTest.uuid) &&
-        Objects.equals(password, formatTest.password);
+    return Objects.equals(this.integer, formatTest.integer) &&
+        Objects.equals(this.int32, formatTest.int32) &&
+        Objects.equals(this.int64, formatTest.int64) &&
+        Objects.equals(this.number, formatTest.number) &&
+        Objects.equals(this._float, formatTest._float) &&
+        Objects.equals(this._double, formatTest._double) &&
+        Objects.equals(this.string, formatTest.string) &&
+        Objects.equals(this._byte, formatTest._byte) &&
+        Objects.equals(this.binary, formatTest.binary) &&
+        Objects.equals(this.date, formatTest.date) &&
+        Objects.equals(this.dateTime, formatTest.dateTime) &&
+        Objects.equals(this.uuid, formatTest.uuid) &&
+        Objects.equals(this.password, formatTest.password);
   }
 
   @Override

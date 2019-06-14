@@ -16,16 +16,15 @@ import java.util.Objects;
 import javax.xml.bind.annotation.*;
 
 @ApiModel(description = "An order for a pets from the pet store")
-
 public class Order   {
   
-  private Long id = null;
+  private Long id;
 
-  private Long petId = null;
+  private Long petId;
 
-  private Integer quantity = null;
+  private Integer quantity;
 
-  private java.util.Date shipDate = null;
+  private java.util.Date shipDate;
 
 
 @XmlType(name="StatusEnum")
@@ -50,17 +49,17 @@ public enum StatusEnum {
         return String.valueOf(value);
     }
 
-    public static StatusEnum fromValue(String v) {
+    public static StatusEnum fromValue(String value) {
         for (StatusEnum b : StatusEnum.values()) {
-            if (String.valueOf(b.value).equals(v)) {
+            if (b.value.equals(value)) {
                 return b;
             }
         }
-        throw new IllegalArgumentException("Unexpected value '" + v + "'");
+        throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 }
 
-  private StatusEnum status = null;
+  private StatusEnum status;
 
   private Boolean complete = false;
 

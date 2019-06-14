@@ -16,31 +16,15 @@ open class StoreAPI {
      Delete purchase order by ID
      
      - parameter orderId: (path) ID of the order that needs to be deleted 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func deleteOrder(orderId: String, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        deleteOrderWithRequestBuilder(orderId: orderId).execute { (response, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
-                completion(nil, error)
-            }
-        }
-    }
-
-    /**
-     Delete purchase order by ID
-     
-     - parameter orderId: (path) ID of the order that needs to be deleted 
      - returns: Promise<Void>
      */
     open class func deleteOrder( orderId: String) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        deleteOrder(orderId: orderId) { data, error in
+        deleteOrderWithRequestBuilder(orderId: orderId).execute { (response, error) -> Void in
             if let error = error {
                 deferred.reject(error)
             } else {
-                deferred.fulfill(data!)
+                deferred.fulfill(())
             }
         }
         return deferred.promise
@@ -55,7 +39,7 @@ open class StoreAPI {
      */
     open class func deleteOrderWithRequestBuilder(orderId: String) -> RequestBuilder<Void> {
         var path = "/store/order/{order_id}"
-        let orderIdPreEscape = "\(orderId)"
+        let orderIdPreEscape = "\(APIHelper.mapValueToPathItem(orderId))"
         let orderIdPostEscape = orderIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{order_id}", with: orderIdPostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
@@ -71,26 +55,17 @@ open class StoreAPI {
     /**
      Returns pet inventories by status
      
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func getInventory(completion: @escaping ((_ data: [String:Int]?,_ error: Error?) -> Void)) {
-        getInventoryWithRequestBuilder().execute { (response, error) -> Void in
-            completion(response?.body, error)
-        }
-    }
-
-    /**
-     Returns pet inventories by status
-     
      - returns: Promise<[String:Int]>
      */
     open class func getInventory() -> Promise<[String:Int]> {
         let deferred = Promise<[String:Int]>.pending()
-        getInventory() { data, error in
+        getInventoryWithRequestBuilder().execute { (response, error) -> Void in
             if let error = error {
                 deferred.reject(error)
+            } else if let response = response {
+                deferred.fulfill(response.body!)
             } else {
-                deferred.fulfill(data!)
+                fatalError()
             }
         }
         return deferred.promise
@@ -121,27 +96,17 @@ open class StoreAPI {
      Find purchase order by ID
      
      - parameter orderId: (path) ID of pet that needs to be fetched 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func getOrderById(orderId: Int64, completion: @escaping ((_ data: Order?,_ error: Error?) -> Void)) {
-        getOrderByIdWithRequestBuilder(orderId: orderId).execute { (response, error) -> Void in
-            completion(response?.body, error)
-        }
-    }
-
-    /**
-     Find purchase order by ID
-     
-     - parameter orderId: (path) ID of pet that needs to be fetched 
      - returns: Promise<Order>
      */
     open class func getOrderById( orderId: Int64) -> Promise<Order> {
         let deferred = Promise<Order>.pending()
-        getOrderById(orderId: orderId) { data, error in
+        getOrderByIdWithRequestBuilder(orderId: orderId).execute { (response, error) -> Void in
             if let error = error {
                 deferred.reject(error)
+            } else if let response = response {
+                deferred.fulfill(response.body!)
             } else {
-                deferred.fulfill(data!)
+                fatalError()
             }
         }
         return deferred.promise
@@ -156,7 +121,7 @@ open class StoreAPI {
      */
     open class func getOrderByIdWithRequestBuilder(orderId: Int64) -> RequestBuilder<Order> {
         var path = "/store/order/{order_id}"
-        let orderIdPreEscape = "\(orderId)"
+        let orderIdPreEscape = "\(APIHelper.mapValueToPathItem(orderId))"
         let orderIdPostEscape = orderIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{order_id}", with: orderIdPostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
@@ -172,28 +137,18 @@ open class StoreAPI {
     /**
      Place an order for a pet
      
-     - parameter order: (body) order placed for purchasing the pet 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func placeOrder(order: Order, completion: @escaping ((_ data: Order?,_ error: Error?) -> Void)) {
-        placeOrderWithRequestBuilder(order: order).execute { (response, error) -> Void in
-            completion(response?.body, error)
-        }
-    }
-
-    /**
-     Place an order for a pet
-     
-     - parameter order: (body) order placed for purchasing the pet 
+     - parameter body: (body) order placed for purchasing the pet 
      - returns: Promise<Order>
      */
-    open class func placeOrder( order: Order) -> Promise<Order> {
+    open class func placeOrder( body: Order) -> Promise<Order> {
         let deferred = Promise<Order>.pending()
-        placeOrder(order: order) { data, error in
+        placeOrderWithRequestBuilder(body: body).execute { (response, error) -> Void in
             if let error = error {
                 deferred.reject(error)
+            } else if let response = response {
+                deferred.fulfill(response.body!)
             } else {
-                deferred.fulfill(data!)
+                fatalError()
             }
         }
         return deferred.promise
@@ -202,13 +157,13 @@ open class StoreAPI {
     /**
      Place an order for a pet
      - POST /store/order
-     - parameter order: (body) order placed for purchasing the pet 
+     - parameter body: (body) order placed for purchasing the pet 
      - returns: RequestBuilder<Order> 
      */
-    open class func placeOrderWithRequestBuilder(order: Order) -> RequestBuilder<Order> {
+    open class func placeOrderWithRequestBuilder(body: Order) -> RequestBuilder<Order> {
         let path = "/store/order"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: order)
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let url = URLComponents(string: URLString)
 

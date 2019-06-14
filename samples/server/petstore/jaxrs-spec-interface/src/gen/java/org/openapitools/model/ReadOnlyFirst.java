@@ -16,8 +16,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public class ReadOnlyFirst  implements Serializable {
   
-  private @Valid String bar = null;
-  private @Valid String baz = null;
+  private @Valid String bar;
+  private @Valid String baz;
 
   /**
    **/
@@ -63,8 +63,8 @@ public class ReadOnlyFirst  implements Serializable {
       return false;
     }
     ReadOnlyFirst readOnlyFirst = (ReadOnlyFirst) o;
-    return Objects.equals(bar, readOnlyFirst.bar) &&
-        Objects.equals(baz, readOnlyFirst.baz);
+    return Objects.equals(this.bar, readOnlyFirst.bar) &&
+        Objects.equals(this.baz, readOnlyFirst.baz);
   }
 
   @Override

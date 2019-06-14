@@ -15,32 +15,16 @@ open class UserAPI {
     /**
      Create user
      
-     - parameter user: (body) Created user object 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func createUser(user: User, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        createUserWithRequestBuilder(user: user).execute { (response, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
-                completion(nil, error)
-            }
-        }
-    }
-
-    /**
-     Create user
-     
-     - parameter user: (body) Created user object 
+     - parameter body: (body) Created user object 
      - returns: Promise<Void>
      */
-    open class func createUser( user: User) -> Promise<Void> {
+    open class func createUser( body: User) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        createUser(user: user) { data, error in
+        createUserWithRequestBuilder(body: body).execute { (response, error) -> Void in
             if let error = error {
                 deferred.reject(error)
             } else {
-                deferred.fulfill(data!)
+                deferred.fulfill(())
             }
         }
         return deferred.promise
@@ -50,13 +34,13 @@ open class UserAPI {
      Create user
      - POST /user
      - This can only be done by the logged in user.
-     - parameter user: (body) Created user object 
+     - parameter body: (body) Created user object 
      - returns: RequestBuilder<Void> 
      */
-    open class func createUserWithRequestBuilder(user: User) -> RequestBuilder<Void> {
+    open class func createUserWithRequestBuilder(body: User) -> RequestBuilder<Void> {
         let path = "/user"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: user)
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let url = URLComponents(string: URLString)
 
@@ -68,32 +52,16 @@ open class UserAPI {
     /**
      Creates list of users with given input array
      
-     - parameter user: (body) List of user object 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func createUsersWithArrayInput(user: [User], completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        createUsersWithArrayInputWithRequestBuilder(user: user).execute { (response, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
-                completion(nil, error)
-            }
-        }
-    }
-
-    /**
-     Creates list of users with given input array
-     
-     - parameter user: (body) List of user object 
+     - parameter body: (body) List of user object 
      - returns: Promise<Void>
      */
-    open class func createUsersWithArrayInput( user: [User]) -> Promise<Void> {
+    open class func createUsersWithArrayInput( body: [User]) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        createUsersWithArrayInput(user: user) { data, error in
+        createUsersWithArrayInputWithRequestBuilder(body: body).execute { (response, error) -> Void in
             if let error = error {
                 deferred.reject(error)
             } else {
-                deferred.fulfill(data!)
+                deferred.fulfill(())
             }
         }
         return deferred.promise
@@ -102,13 +70,13 @@ open class UserAPI {
     /**
      Creates list of users with given input array
      - POST /user/createWithArray
-     - parameter user: (body) List of user object 
+     - parameter body: (body) List of user object 
      - returns: RequestBuilder<Void> 
      */
-    open class func createUsersWithArrayInputWithRequestBuilder(user: [User]) -> RequestBuilder<Void> {
+    open class func createUsersWithArrayInputWithRequestBuilder(body: [User]) -> RequestBuilder<Void> {
         let path = "/user/createWithArray"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: user)
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let url = URLComponents(string: URLString)
 
@@ -120,32 +88,16 @@ open class UserAPI {
     /**
      Creates list of users with given input array
      
-     - parameter user: (body) List of user object 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func createUsersWithListInput(user: [User], completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        createUsersWithListInputWithRequestBuilder(user: user).execute { (response, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
-                completion(nil, error)
-            }
-        }
-    }
-
-    /**
-     Creates list of users with given input array
-     
-     - parameter user: (body) List of user object 
+     - parameter body: (body) List of user object 
      - returns: Promise<Void>
      */
-    open class func createUsersWithListInput( user: [User]) -> Promise<Void> {
+    open class func createUsersWithListInput( body: [User]) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        createUsersWithListInput(user: user) { data, error in
+        createUsersWithListInputWithRequestBuilder(body: body).execute { (response, error) -> Void in
             if let error = error {
                 deferred.reject(error)
             } else {
-                deferred.fulfill(data!)
+                deferred.fulfill(())
             }
         }
         return deferred.promise
@@ -154,35 +106,19 @@ open class UserAPI {
     /**
      Creates list of users with given input array
      - POST /user/createWithList
-     - parameter user: (body) List of user object 
+     - parameter body: (body) List of user object 
      - returns: RequestBuilder<Void> 
      */
-    open class func createUsersWithListInputWithRequestBuilder(user: [User]) -> RequestBuilder<Void> {
+    open class func createUsersWithListInputWithRequestBuilder(body: [User]) -> RequestBuilder<Void> {
         let path = "/user/createWithList"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: user)
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
-    }
-
-    /**
-     Delete user
-     
-     - parameter username: (path) The name that needs to be deleted 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func deleteUser(username: String, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        deleteUserWithRequestBuilder(username: username).execute { (response, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
-                completion(nil, error)
-            }
-        }
     }
 
     /**
@@ -193,11 +129,11 @@ open class UserAPI {
      */
     open class func deleteUser( username: String) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        deleteUser(username: username) { data, error in
+        deleteUserWithRequestBuilder(username: username).execute { (response, error) -> Void in
             if let error = error {
                 deferred.reject(error)
             } else {
-                deferred.fulfill(data!)
+                deferred.fulfill(())
             }
         }
         return deferred.promise
@@ -212,7 +148,7 @@ open class UserAPI {
      */
     open class func deleteUserWithRequestBuilder(username: String) -> RequestBuilder<Void> {
         var path = "/user/{username}"
-        let usernamePreEscape = "\(username)"
+        let usernamePreEscape = "\(APIHelper.mapValueToPathItem(username))"
         let usernamePostEscape = usernamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{username}", with: usernamePostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
@@ -229,27 +165,17 @@ open class UserAPI {
      Get user by user name
      
      - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func getUserByName(username: String, completion: @escaping ((_ data: User?,_ error: Error?) -> Void)) {
-        getUserByNameWithRequestBuilder(username: username).execute { (response, error) -> Void in
-            completion(response?.body, error)
-        }
-    }
-
-    /**
-     Get user by user name
-     
-     - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
      - returns: Promise<User>
      */
     open class func getUserByName( username: String) -> Promise<User> {
         let deferred = Promise<User>.pending()
-        getUserByName(username: username) { data, error in
+        getUserByNameWithRequestBuilder(username: username).execute { (response, error) -> Void in
             if let error = error {
                 deferred.reject(error)
+            } else if let response = response {
+                deferred.fulfill(response.body!)
             } else {
-                deferred.fulfill(data!)
+                fatalError()
             }
         }
         return deferred.promise
@@ -263,7 +189,7 @@ open class UserAPI {
      */
     open class func getUserByNameWithRequestBuilder(username: String) -> RequestBuilder<User> {
         var path = "/user/{username}"
-        let usernamePreEscape = "\(username)"
+        let usernamePreEscape = "\(APIHelper.mapValueToPathItem(username))"
         let usernamePostEscape = usernamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{username}", with: usernamePostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
@@ -281,28 +207,17 @@ open class UserAPI {
      
      - parameter username: (query) The user name for login 
      - parameter password: (query) The password for login in clear text 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func loginUser(username: String, password: String, completion: @escaping ((_ data: String?,_ error: Error?) -> Void)) {
-        loginUserWithRequestBuilder(username: username, password: password).execute { (response, error) -> Void in
-            completion(response?.body, error)
-        }
-    }
-
-    /**
-     Logs user into the system
-     
-     - parameter username: (query) The user name for login 
-     - parameter password: (query) The password for login in clear text 
      - returns: Promise<String>
      */
     open class func loginUser( username: String,  password: String) -> Promise<String> {
         let deferred = Promise<String>.pending()
-        loginUser(username: username, password: password) { data, error in
+        loginUserWithRequestBuilder(username: username, password: password).execute { (response, error) -> Void in
             if let error = error {
                 deferred.reject(error)
+            } else if let response = response {
+                deferred.fulfill(response.body!)
             } else {
-                deferred.fulfill(data!)
+                fatalError()
             }
         }
         return deferred.promise
@@ -335,30 +250,15 @@ open class UserAPI {
     /**
      Logs out current logged in user session
      
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func logoutUser(completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        logoutUserWithRequestBuilder().execute { (response, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
-                completion(nil, error)
-            }
-        }
-    }
-
-    /**
-     Logs out current logged in user session
-     
      - returns: Promise<Void>
      */
     open class func logoutUser() -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        logoutUser() { data, error in
+        logoutUserWithRequestBuilder().execute { (response, error) -> Void in
             if let error = error {
                 deferred.reject(error)
             } else {
-                deferred.fulfill(data!)
+                deferred.fulfill(())
             }
         }
         return deferred.promise
@@ -385,33 +285,16 @@ open class UserAPI {
      Updated user
      
      - parameter username: (path) name that need to be deleted 
-     - parameter user: (body) Updated user object 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func updateUser(username: String, user: User, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        updateUserWithRequestBuilder(username: username, user: user).execute { (response, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
-                completion(nil, error)
-            }
-        }
-    }
-
-    /**
-     Updated user
-     
-     - parameter username: (path) name that need to be deleted 
-     - parameter user: (body) Updated user object 
+     - parameter body: (body) Updated user object 
      - returns: Promise<Void>
      */
-    open class func updateUser( username: String,  user: User) -> Promise<Void> {
+    open class func updateUser( username: String,  body: User) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        updateUser(username: username, user: user) { data, error in
+        updateUserWithRequestBuilder(username: username, body: body).execute { (response, error) -> Void in
             if let error = error {
                 deferred.reject(error)
             } else {
-                deferred.fulfill(data!)
+                deferred.fulfill(())
             }
         }
         return deferred.promise
@@ -422,16 +305,16 @@ open class UserAPI {
      - PUT /user/{username}
      - This can only be done by the logged in user.
      - parameter username: (path) name that need to be deleted 
-     - parameter user: (body) Updated user object 
+     - parameter body: (body) Updated user object 
      - returns: RequestBuilder<Void> 
      */
-    open class func updateUserWithRequestBuilder(username: String, user: User) -> RequestBuilder<Void> {
+    open class func updateUserWithRequestBuilder(username: String, body: User) -> RequestBuilder<Void> {
         var path = "/user/{username}"
-        let usernamePreEscape = "\(username)"
+        let usernamePreEscape = "\(APIHelper.mapValueToPathItem(username))"
         let usernamePostEscape = usernamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{username}", with: usernamePostEscape, options: .literal, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: user)
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let url = URLComponents(string: URLString)
 

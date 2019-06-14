@@ -16,9 +16,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public class ModelApiResponse  implements Serializable {
   
-  private @Valid Integer code = null;
-  private @Valid String type = null;
-  private @Valid String message = null;
+  private @Valid Integer code;
+  private @Valid String type;
+  private @Valid String message;
 
   /**
    **/
@@ -81,9 +81,9 @@ public class ModelApiResponse  implements Serializable {
       return false;
     }
     ModelApiResponse _apiResponse = (ModelApiResponse) o;
-    return Objects.equals(code, _apiResponse.code) &&
-        Objects.equals(type, _apiResponse.type) &&
-        Objects.equals(message, _apiResponse.message);
+    return Objects.equals(this.code, _apiResponse.code) &&
+        Objects.equals(this.type, _apiResponse.type) &&
+        Objects.equals(this.message, _apiResponse.message);
   }
 
   @Override

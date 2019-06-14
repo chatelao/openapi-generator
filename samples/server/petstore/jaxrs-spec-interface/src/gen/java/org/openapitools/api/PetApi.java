@@ -28,8 +28,9 @@ public interface PetApi {
         })
     }, tags={ "pet",  })
     @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = Void.class),
         @ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
-    void addPet(@Valid Pet pet);
+    void addPet(@Valid Pet body);
 
     @DELETE
     @Path("/{petId}")
@@ -40,8 +41,9 @@ public interface PetApi {
         })
     }, tags={ "pet",  })
     @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = Void.class),
         @ApiResponse(code = 400, message = "Invalid pet value", response = Void.class) })
-    void deletePet(@PathParam("petId") @ApiParam("Pet id to delete") Long petId,@HeaderParam("api_key")   String apiKey);
+    void deletePet(@PathParam("petId") @ApiParam("Pet id to delete") Long petId,@HeaderParam("api_key")    String apiKey);
 
     @GET
     @Path("/findByStatus")
@@ -92,10 +94,11 @@ public interface PetApi {
         })
     }, tags={ "pet",  })
     @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = Void.class),
         @ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
         @ApiResponse(code = 404, message = "Pet not found", response = Void.class),
         @ApiResponse(code = 405, message = "Validation exception", response = Void.class) })
-    void updatePet(@Valid Pet pet);
+    void updatePet(@Valid Pet body);
 
     @POST
     @Path("/{petId}")

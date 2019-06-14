@@ -38,27 +38,37 @@ public class FakeClassnameTags123Api {
   /**
    * To test class name in snake case
    * To test class name in snake case
-   * @param client client model (required)
+   * @param body client model (required)
    * @return Client
    * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
    */
-  public Client testClassname(Client client) throws ApiException {
-    return testClassnameWithHttpInfo(client).getData();
+  public Client testClassname(Client body) throws ApiException {
+    return testClassnameWithHttpInfo(body).getData();
       }
 
   /**
    * To test class name in snake case
    * To test class name in snake case
-   * @param client client model (required)
+   * @param body client model (required)
    * @return ApiResponse&lt;Client&gt;
    * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
    */
-  public ApiResponse<Client> testClassnameWithHttpInfo(Client client) throws ApiException {
-    Object localVarPostBody = client;
+  public ApiResponse<Client> testClassnameWithHttpInfo(Client body) throws ApiException {
+    Object localVarPostBody = body;
     
-    // verify the required parameter 'client' is set
-    if (client == null) {
-      throw new ApiException(400, "Missing the required parameter 'client' when calling testClassname");
+    // verify the required parameter 'body' is set
+    if (body == null) {
+      throw new ApiException(400, "Missing the required parameter 'body' when calling testClassname");
     }
     
     // create path and map variables

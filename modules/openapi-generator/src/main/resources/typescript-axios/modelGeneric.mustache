@@ -14,28 +14,23 @@ export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
      * @type {{=<% %>=}}{<%&datatype%>}<%={{ }}=%>
      * @memberof {{classname}}
      */
-    {{name}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}};
+    {{name}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}};
 {{/vars}}
 }{{#hasEnums}}
 
-/**
- * @export
- * @namespace {{classname}}
- */
-export namespace {{classname}} {
 {{#vars}}
-    {{#isEnum}}
-    /**
-     * @export
-     * @enum {string}
-     */
-    export enum {{enumName}} {
-    {{#allowableValues}}
-        {{#enumVars}}
-        {{{name}}} = {{{value}}}{{^-last}},{{/-last}}
-        {{/enumVars}}
-    {{/allowableValues}}
-    }
-    {{/isEnum}}
+{{#isEnum}}
+/**
+    * @export
+    * @enum {string}
+    */
+export enum {{enumName}} {
+{{#allowableValues}}
+    {{#enumVars}}
+    {{{name}}} = {{{value}}}{{^-last}},{{/-last}}
+    {{/enumVars}}
+{{/allowableValues}}
+}
+{{/isEnum}}
 {{/vars}}
-}{{/hasEnums}}
+{{/hasEnums}}

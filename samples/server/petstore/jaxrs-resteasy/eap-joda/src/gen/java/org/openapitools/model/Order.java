@@ -12,17 +12,16 @@ import javax.validation.constraints.*;
 import io.swagger.annotations.*;
 
 @ApiModel(description="An order for a pets from the pet store")
-
 public class Order   {
   
 
-  private Long id = null;
+  private Long id;
 
-  private Long petId = null;
+  private Long petId;
 
-  private Integer quantity = null;
+  private Integer quantity;
 
-  private DateTime shipDate = null;
+  private DateTime shipDate;
 
   /**
    * Order Status
@@ -47,7 +46,7 @@ public class Order   {
   }
 
 
-  private StatusEnum status = null;
+  private StatusEnum status;
 
   private Boolean complete = false;
 

@@ -22,8 +22,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializable {
   
-  private @Valid UUID uuid = null;
-  private @Valid Date dateTime = null;
+  private @Valid UUID uuid;
+  private @Valid Date dateTime;
   private @Valid Map<String, Animal> map = new HashMap<String, Animal>();
 
   /**
@@ -87,9 +87,9 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
       return false;
     }
     MixedPropertiesAndAdditionalPropertiesClass mixedPropertiesAndAdditionalPropertiesClass = (MixedPropertiesAndAdditionalPropertiesClass) o;
-    return Objects.equals(uuid, mixedPropertiesAndAdditionalPropertiesClass.uuid) &&
-        Objects.equals(dateTime, mixedPropertiesAndAdditionalPropertiesClass.dateTime) &&
-        Objects.equals(map, mixedPropertiesAndAdditionalPropertiesClass.map);
+    return Objects.equals(this.uuid, mixedPropertiesAndAdditionalPropertiesClass.uuid) &&
+        Objects.equals(this.dateTime, mixedPropertiesAndAdditionalPropertiesClass.dateTime) &&
+        Objects.equals(this.map, mixedPropertiesAndAdditionalPropertiesClass.map);
   }
 
   @Override

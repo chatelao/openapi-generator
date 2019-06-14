@@ -1,15 +1,15 @@
 import { expect } from "chai";
-import { PetApi, Pet, Category } from "@swagger/typescript-axios-petstore";
-import { AxiosResponse } from "axios";
+import { PetApi, Pet, PetStatusEnum, Category } from "@swagger/typescript-axios-petstore";
+import axios, {AxiosInstance, AxiosResponse} from "axios";
 
 describe("PetApi", () => {
-  function runSuite(description: string, requestOptions?: any): void {
+  function runSuite(description: string, requestOptions?: any, customAxiosInstance?: AxiosInstance): void {
     describe(description, () => {
       let api: PetApi;
       const fixture: Pet = createTestFixture();
 
       beforeEach(() => {
-        api = new PetApi();
+        api = new PetApi(undefined, undefined, customAxiosInstance);
       });
 
       it("should add and delete Pet", () => {
@@ -63,6 +63,15 @@ describe("PetApi", () => {
     credentials: "include",
     mode: "cors"
   });
+
+  runSuite("without custom axios instance");
+
+  runSuite("with custom axios instance",{}, axios);
+
+  runSuite("with custom request options and custom axios instance",{
+      credentials: "include",
+      mode: "cors"
+  }, axios);
 });
 
 function createTestFixture(ts = Date.now()) {
@@ -76,7 +85,7 @@ function createTestFixture(ts = Date.now()) {
     name: `pet${ts}`,
     category: category,
     photoUrls: ["http://foo.bar.com/1", "http://foo.bar.com/2"],
-    status: Pet.StatusEnum.Available,
+    status: PetStatusEnum.Available,
     tags: []
   };
 

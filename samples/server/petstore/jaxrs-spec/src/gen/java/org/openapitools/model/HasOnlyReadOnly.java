@@ -16,8 +16,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public class HasOnlyReadOnly  implements Serializable {
   
-  private @Valid String bar = null;
-  private @Valid String foo = null;
+  private @Valid String bar;
+  private @Valid String foo;
 
   /**
    **/
@@ -63,8 +63,8 @@ public class HasOnlyReadOnly  implements Serializable {
       return false;
     }
     HasOnlyReadOnly hasOnlyReadOnly = (HasOnlyReadOnly) o;
-    return Objects.equals(bar, hasOnlyReadOnly.bar) &&
-        Objects.equals(foo, hasOnlyReadOnly.foo);
+    return Objects.equals(this.bar, hasOnlyReadOnly.bar) &&
+        Objects.equals(this.foo, hasOnlyReadOnly.foo);
   }
 
   @Override

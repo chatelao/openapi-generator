@@ -10,25 +10,24 @@ import javax.validation.constraints.*;
 import io.swagger.annotations.*;
 
 @ApiModel(description="A User who is purchasing from the pet store")
-
 public class User   {
   
 
-  private Long id = null;
+  private Long id;
 
-  private String username = null;
+  private String username;
 
-  private String firstName = null;
+  private String firstName;
 
-  private String lastName = null;
+  private String lastName;
 
-  private String email = null;
+  private String email;
 
-  private String password = null;
+  private String password;
 
-  private String phone = null;
+  private String phone;
 
-  private Integer userStatus = null;
+  private Integer userStatus;
 
   /**
    **/

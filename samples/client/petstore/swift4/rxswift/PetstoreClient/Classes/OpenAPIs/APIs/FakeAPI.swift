@@ -15,28 +15,19 @@ open class FakeAPI {
     /**
 
      - parameter body: (body) Input boolean as post body (optional)
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func fakeOuterBooleanSerialize(body: Bool? = nil, completion: @escaping ((_ data: Bool?,_ error: Error?) -> Void)) {
-        fakeOuterBooleanSerializeWithRequestBuilder(body: body).execute { (response, error) -> Void in
-            completion(response?.body, error)
-        }
-    }
-
-    /**
-
-     - parameter body: (body) Input boolean as post body (optional)
      - returns: Observable<Bool>
      */
     open class func fakeOuterBooleanSerialize(body: Bool? = nil) -> Observable<Bool> {
         return Observable.create { observer -> Disposable in
-            fakeOuterBooleanSerialize(body: body) { data, error in
+            fakeOuterBooleanSerializeWithRequestBuilder(body: body).execute { (response, error) -> Void in
                 if let error = error {
-                    observer.on(.error(error))
+                    observer.onError(error)
+                } else if let response = response {
+                    observer.onNext(response.body!)
                 } else {
-                    observer.on(.next(data!))
+                    fatalError()
                 }
-                observer.on(.completed)
+                observer.onCompleted()
             }
             return Disposables.create()
         }
@@ -62,29 +53,20 @@ open class FakeAPI {
 
     /**
 
-     - parameter outerComposite: (body) Input composite as post body (optional)
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func fakeOuterCompositeSerialize(outerComposite: OuterComposite? = nil, completion: @escaping ((_ data: OuterComposite?,_ error: Error?) -> Void)) {
-        fakeOuterCompositeSerializeWithRequestBuilder(outerComposite: outerComposite).execute { (response, error) -> Void in
-            completion(response?.body, error)
-        }
-    }
-
-    /**
-
-     - parameter outerComposite: (body) Input composite as post body (optional)
+     - parameter body: (body) Input composite as post body (optional)
      - returns: Observable<OuterComposite>
      */
-    open class func fakeOuterCompositeSerialize(outerComposite: OuterComposite? = nil) -> Observable<OuterComposite> {
+    open class func fakeOuterCompositeSerialize(body: OuterComposite? = nil) -> Observable<OuterComposite> {
         return Observable.create { observer -> Disposable in
-            fakeOuterCompositeSerialize(outerComposite: outerComposite) { data, error in
+            fakeOuterCompositeSerializeWithRequestBuilder(body: body).execute { (response, error) -> Void in
                 if let error = error {
-                    observer.on(.error(error))
+                    observer.onError(error)
+                } else if let response = response {
+                    observer.onNext(response.body!)
                 } else {
-                    observer.on(.next(data!))
+                    fatalError()
                 }
-                observer.on(.completed)
+                observer.onCompleted()
             }
             return Disposables.create()
         }
@@ -93,13 +75,13 @@ open class FakeAPI {
     /**
      - POST /fake/outer/composite
      - Test serialization of object with outer number type
-     - parameter outerComposite: (body) Input composite as post body (optional)
+     - parameter body: (body) Input composite as post body (optional)
      - returns: RequestBuilder<OuterComposite> 
      */
-    open class func fakeOuterCompositeSerializeWithRequestBuilder(outerComposite: OuterComposite? = nil) -> RequestBuilder<OuterComposite> {
+    open class func fakeOuterCompositeSerializeWithRequestBuilder(body: OuterComposite? = nil) -> RequestBuilder<OuterComposite> {
         let path = "/fake/outer/composite"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: outerComposite)
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let url = URLComponents(string: URLString)
 
@@ -111,28 +93,19 @@ open class FakeAPI {
     /**
 
      - parameter body: (body) Input number as post body (optional)
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func fakeOuterNumberSerialize(body: Double? = nil, completion: @escaping ((_ data: Double?,_ error: Error?) -> Void)) {
-        fakeOuterNumberSerializeWithRequestBuilder(body: body).execute { (response, error) -> Void in
-            completion(response?.body, error)
-        }
-    }
-
-    /**
-
-     - parameter body: (body) Input number as post body (optional)
      - returns: Observable<Double>
      */
     open class func fakeOuterNumberSerialize(body: Double? = nil) -> Observable<Double> {
         return Observable.create { observer -> Disposable in
-            fakeOuterNumberSerialize(body: body) { data, error in
+            fakeOuterNumberSerializeWithRequestBuilder(body: body).execute { (response, error) -> Void in
                 if let error = error {
-                    observer.on(.error(error))
+                    observer.onError(error)
+                } else if let response = response {
+                    observer.onNext(response.body!)
                 } else {
-                    observer.on(.next(data!))
+                    fatalError()
                 }
-                observer.on(.completed)
+                observer.onCompleted()
             }
             return Disposables.create()
         }
@@ -159,28 +132,19 @@ open class FakeAPI {
     /**
 
      - parameter body: (body) Input string as post body (optional)
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func fakeOuterStringSerialize(body: String? = nil, completion: @escaping ((_ data: String?,_ error: Error?) -> Void)) {
-        fakeOuterStringSerializeWithRequestBuilder(body: body).execute { (response, error) -> Void in
-            completion(response?.body, error)
-        }
-    }
-
-    /**
-
-     - parameter body: (body) Input string as post body (optional)
      - returns: Observable<String>
      */
     open class func fakeOuterStringSerialize(body: String? = nil) -> Observable<String> {
         return Observable.create { observer -> Disposable in
-            fakeOuterStringSerialize(body: body) { data, error in
+            fakeOuterStringSerializeWithRequestBuilder(body: body).execute { (response, error) -> Void in
                 if let error = error {
-                    observer.on(.error(error))
+                    observer.onError(error)
+                } else if let response = response {
+                    observer.onNext(response.body!)
                 } else {
-                    observer.on(.next(data!))
+                    fatalError()
                 }
-                observer.on(.completed)
+                observer.onCompleted()
             }
             return Disposables.create()
         }
@@ -206,33 +170,18 @@ open class FakeAPI {
 
     /**
 
-     - parameter fileSchemaTestClass: (body)  
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func testBodyWithFileSchema(fileSchemaTestClass: FileSchemaTestClass, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        testBodyWithFileSchemaWithRequestBuilder(fileSchemaTestClass: fileSchemaTestClass).execute { (response, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
-                completion(nil, error)
-            }
-        }
-    }
-
-    /**
-
-     - parameter fileSchemaTestClass: (body)  
+     - parameter body: (body)  
      - returns: Observable<Void>
      */
-    open class func testBodyWithFileSchema(fileSchemaTestClass: FileSchemaTestClass) -> Observable<Void> {
+    open class func testBodyWithFileSchema(body: FileSchemaTestClass) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            testBodyWithFileSchema(fileSchemaTestClass: fileSchemaTestClass) { data, error in
+            testBodyWithFileSchemaWithRequestBuilder(body: body).execute { (response, error) -> Void in
                 if let error = error {
-                    observer.on(.error(error))
+                    observer.onError(error)
                 } else {
-                    observer.on(.next(data!))
+                    observer.onNext(())
                 }
-                observer.on(.completed)
+                observer.onCompleted()
             }
             return Disposables.create()
         }
@@ -241,13 +190,13 @@ open class FakeAPI {
     /**
      - PUT /fake/body-with-file-schema
      - For this test, the body for this request much reference a schema named `File`.
-     - parameter fileSchemaTestClass: (body)  
+     - parameter body: (body)  
      - returns: RequestBuilder<Void> 
      */
-    open class func testBodyWithFileSchemaWithRequestBuilder(fileSchemaTestClass: FileSchemaTestClass) -> RequestBuilder<Void> {
+    open class func testBodyWithFileSchemaWithRequestBuilder(body: FileSchemaTestClass) -> RequestBuilder<Void> {
         let path = "/fake/body-with-file-schema"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: fileSchemaTestClass)
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let url = URLComponents(string: URLString)
 
@@ -259,34 +208,18 @@ open class FakeAPI {
     /**
 
      - parameter query: (query)  
-     - parameter user: (body)  
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func testBodyWithQueryParams(query: String, user: User, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        testBodyWithQueryParamsWithRequestBuilder(query: query, user: user).execute { (response, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
-                completion(nil, error)
-            }
-        }
-    }
-
-    /**
-
-     - parameter query: (query)  
-     - parameter user: (body)  
+     - parameter body: (body)  
      - returns: Observable<Void>
      */
-    open class func testBodyWithQueryParams(query: String, user: User) -> Observable<Void> {
+    open class func testBodyWithQueryParams(query: String, body: User) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            testBodyWithQueryParams(query: query, user: user) { data, error in
+            testBodyWithQueryParamsWithRequestBuilder(query: query, body: body).execute { (response, error) -> Void in
                 if let error = error {
-                    observer.on(.error(error))
+                    observer.onError(error)
                 } else {
-                    observer.on(.next(data!))
+                    observer.onNext(())
                 }
-                observer.on(.completed)
+                observer.onCompleted()
             }
             return Disposables.create()
         }
@@ -295,13 +228,13 @@ open class FakeAPI {
     /**
      - PUT /fake/body-with-query-params
      - parameter query: (query)  
-     - parameter user: (body)  
+     - parameter body: (body)  
      - returns: RequestBuilder<Void> 
      */
-    open class func testBodyWithQueryParamsWithRequestBuilder(query: String, user: User) -> RequestBuilder<Void> {
+    open class func testBodyWithQueryParamsWithRequestBuilder(query: String, body: User) -> RequestBuilder<Void> {
         let path = "/fake/body-with-query-params"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: user)
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         var url = URLComponents(string: URLString)
         url?.queryItems = APIHelper.mapValuesToQueryItems([
@@ -316,30 +249,20 @@ open class FakeAPI {
     /**
      To test \"client\" model
      
-     - parameter client: (body) client model 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func testClientModel(client: Client, completion: @escaping ((_ data: Client?,_ error: Error?) -> Void)) {
-        testClientModelWithRequestBuilder(client: client).execute { (response, error) -> Void in
-            completion(response?.body, error)
-        }
-    }
-
-    /**
-     To test \"client\" model
-     
-     - parameter client: (body) client model 
+     - parameter body: (body) client model 
      - returns: Observable<Client>
      */
-    open class func testClientModel(client: Client) -> Observable<Client> {
+    open class func testClientModel(body: Client) -> Observable<Client> {
         return Observable.create { observer -> Disposable in
-            testClientModel(client: client) { data, error in
+            testClientModelWithRequestBuilder(body: body).execute { (response, error) -> Void in
                 if let error = error {
-                    observer.on(.error(error))
+                    observer.onError(error)
+                } else if let response = response {
+                    observer.onNext(response.body!)
                 } else {
-                    observer.on(.next(data!))
+                    fatalError()
                 }
-                observer.on(.completed)
+                observer.onCompleted()
             }
             return Disposables.create()
         }
@@ -349,13 +272,13 @@ open class FakeAPI {
      To test \"client\" model
      - PATCH /fake
      - To test \"client\" model
-     - parameter client: (body) client model 
+     - parameter body: (body) client model 
      - returns: RequestBuilder<Client> 
      */
-    open class func testClientModelWithRequestBuilder(client: Client) -> RequestBuilder<Client> {
+    open class func testClientModelWithRequestBuilder(body: Client) -> RequestBuilder<Client> {
         let path = "/fake"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: client)
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let url = URLComponents(string: URLString)
 
@@ -381,46 +304,17 @@ open class FakeAPI {
      - parameter dateTime: (form) None (optional)
      - parameter password: (form) None (optional)
      - parameter callback: (form) None (optional)
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).execute { (response, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
-                completion(nil, error)
-            }
-        }
-    }
-
-    /**
-     Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-     
-     - parameter number: (form) None 
-     - parameter double: (form) None 
-     - parameter patternWithoutDelimiter: (form) None 
-     - parameter byte: (form) None 
-     - parameter integer: (form) None (optional)
-     - parameter int32: (form) None (optional)
-     - parameter int64: (form) None (optional)
-     - parameter float: (form) None (optional)
-     - parameter string: (form) None (optional)
-     - parameter binary: (form) None (optional)
-     - parameter date: (form) None (optional)
-     - parameter dateTime: (form) None (optional)
-     - parameter password: (form) None (optional)
-     - parameter callback: (form) None (optional)
      - returns: Observable<Void>
      */
     open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            testEndpointParameters(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback) { data, error in
+            testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).execute { (response, error) -> Void in
                 if let error = error {
-                    observer.on(.error(error))
+                    observer.onError(error)
                 } else {
-                    observer.on(.next(data!))
+                    observer.onNext(())
                 }
-                observer.on(.completed)
+                observer.onCompleted()
             }
             return Disposables.create()
         }
@@ -557,40 +451,17 @@ open class FakeAPI {
      - parameter enumQueryDouble: (query) Query parameter enum test (double) (optional)
      - parameter enumFormStringArray: (form) Form parameter enum test (string array) (optional, default to .$)
      - parameter enumFormString: (form) Form parameter enum test (string) (optional, default to .-efg)
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func testEnumParameters(enumHeaderStringArray: [String]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [String]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [String]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString).execute { (response, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
-                completion(nil, error)
-            }
-        }
-    }
-
-    /**
-     To test enum parameters
-     
-     - parameter enumHeaderStringArray: (header) Header parameter enum test (string array) (optional)
-     - parameter enumHeaderString: (header) Header parameter enum test (string) (optional, default to .-efg)
-     - parameter enumQueryStringArray: (query) Query parameter enum test (string array) (optional)
-     - parameter enumQueryString: (query) Query parameter enum test (string) (optional, default to .-efg)
-     - parameter enumQueryInteger: (query) Query parameter enum test (double) (optional)
-     - parameter enumQueryDouble: (query) Query parameter enum test (double) (optional)
-     - parameter enumFormStringArray: (form) Form parameter enum test (string array) (optional, default to .$)
-     - parameter enumFormString: (form) Form parameter enum test (string) (optional, default to .-efg)
      - returns: Observable<Void>
      */
     open class func testEnumParameters(enumHeaderStringArray: [String]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [String]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [String]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            testEnumParameters(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString) { data, error in
+            testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString).execute { (response, error) -> Void in
                 if let error = error {
-                    observer.on(.error(error))
+                    observer.onError(error)
                 } else {
-                    observer.on(.next(data!))
+                    observer.onNext(())
                 }
-                observer.on(.completed)
+                observer.onCompleted()
             }
             return Disposables.create()
         }
@@ -640,36 +511,80 @@ open class FakeAPI {
     }
 
     /**
-     test inline additionalProperties
+     Fake endpoint to test group parameters (optional)
      
-     - parameter requestBody: (body) request body 
-     - parameter completion: completion handler to receive the data and the error objects
+     - parameter requiredStringGroup: (query) Required String in group parameters 
+     - parameter requiredBooleanGroup: (header) Required Boolean in group parameters 
+     - parameter requiredInt64Group: (query) Required Integer in group parameters 
+     - parameter stringGroup: (query) String in group parameters (optional)
+     - parameter booleanGroup: (header) Boolean in group parameters (optional)
+     - parameter int64Group: (query) Integer in group parameters (optional)
+     - returns: Observable<Void>
      */
-    open class func testInlineAdditionalProperties(requestBody: [String:String], completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        testInlineAdditionalPropertiesWithRequestBuilder(requestBody: requestBody).execute { (response, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
-                completion(nil, error)
+    open class func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil) -> Observable<Void> {
+        return Observable.create { observer -> Disposable in
+            testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group).execute { (response, error) -> Void in
+                if let error = error {
+                    observer.onError(error)
+                } else {
+                    observer.onNext(())
+                }
+                observer.onCompleted()
             }
+            return Disposables.create()
         }
+    }
+
+    /**
+     Fake endpoint to test group parameters (optional)
+     - DELETE /fake
+     - Fake endpoint to test group parameters (optional)
+     - parameter requiredStringGroup: (query) Required String in group parameters 
+     - parameter requiredBooleanGroup: (header) Required Boolean in group parameters 
+     - parameter requiredInt64Group: (query) Required Integer in group parameters 
+     - parameter stringGroup: (query) String in group parameters (optional)
+     - parameter booleanGroup: (header) Boolean in group parameters (optional)
+     - parameter int64Group: (query) Integer in group parameters (optional)
+     - returns: RequestBuilder<Void> 
+     */
+    open class func testGroupParametersWithRequestBuilder(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil) -> RequestBuilder<Void> {
+        let path = "/fake"
+        let URLString = PetstoreClientAPI.basePath + path
+        let parameters: [String:Any]? = nil
+        
+        var url = URLComponents(string: URLString)
+        url?.queryItems = APIHelper.mapValuesToQueryItems([
+            "required_string_group": requiredStringGroup.encodeToJSON(), 
+            "required_int64_group": requiredInt64Group.encodeToJSON(), 
+            "string_group": stringGroup?.encodeToJSON(), 
+            "int64_group": int64Group?.encodeToJSON()
+        ])
+        let nillableHeaders: [String: Any?] = [
+            "required_boolean_group": requiredBooleanGroup,
+            "boolean_group": booleanGroup
+        ]
+        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
+
+        return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false, headers: headerParameters)
     }
 
     /**
      test inline additionalProperties
      
-     - parameter requestBody: (body) request body 
+     - parameter param: (body) request body 
      - returns: Observable<Void>
      */
-    open class func testInlineAdditionalProperties(requestBody: [String:String]) -> Observable<Void> {
+    open class func testInlineAdditionalProperties(param: [String:String]) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            testInlineAdditionalProperties(requestBody: requestBody) { data, error in
+            testInlineAdditionalPropertiesWithRequestBuilder(param: param).execute { (response, error) -> Void in
                 if let error = error {
-                    observer.on(.error(error))
+                    observer.onError(error)
                 } else {
-                    observer.on(.next(data!))
+                    observer.onNext(())
                 }
-                observer.on(.completed)
+                observer.onCompleted()
             }
             return Disposables.create()
         }
@@ -678,13 +593,13 @@ open class FakeAPI {
     /**
      test inline additionalProperties
      - POST /fake/inline-additionalProperties
-     - parameter requestBody: (body) request body 
+     - parameter param: (body) request body 
      - returns: RequestBuilder<Void> 
      */
-    open class func testInlineAdditionalPropertiesWithRequestBuilder(requestBody: [String:String]) -> RequestBuilder<Void> {
+    open class func testInlineAdditionalPropertiesWithRequestBuilder(param: [String:String]) -> RequestBuilder<Void> {
         let path = "/fake/inline-additionalProperties"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: requestBody)
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: param)
 
         let url = URLComponents(string: URLString)
 
@@ -698,34 +613,17 @@ open class FakeAPI {
      
      - parameter param: (form) field1 
      - parameter param2: (form) field2 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func testJsonFormData(param: String, param2: String, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        testJsonFormDataWithRequestBuilder(param: param, param2: param2).execute { (response, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
-                completion(nil, error)
-            }
-        }
-    }
-
-    /**
-     test json serialization of form data
-     
-     - parameter param: (form) field1 
-     - parameter param2: (form) field2 
      - returns: Observable<Void>
      */
     open class func testJsonFormData(param: String, param2: String) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            testJsonFormData(param: param, param2: param2) { data, error in
+            testJsonFormDataWithRequestBuilder(param: param, param2: param2).execute { (response, error) -> Void in
                 if let error = error {
-                    observer.on(.error(error))
+                    observer.onError(error)
                 } else {
-                    observer.on(.next(data!))
+                    observer.onNext(())
                 }
-                observer.on(.completed)
+                observer.onCompleted()
             }
             return Disposables.create()
         }

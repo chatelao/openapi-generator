@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -42,13 +43,13 @@ public class MapTest   {
     }
 
     @JsonCreator
-    public static InnerEnum fromValue(String text) {
+    public static InnerEnum fromValue(String value) {
       for (InnerEnum b : InnerEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
+        if (b.value.equals(value)) {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
 
@@ -80,7 +81,7 @@ public class MapTest   {
   /**
    * Get mapMapOfString
    * @return mapMapOfString
-  **/
+  */
   @ApiModelProperty(value = "")
 
   @Valid
@@ -109,7 +110,7 @@ public class MapTest   {
   /**
    * Get mapOfEnumString
    * @return mapOfEnumString
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -137,7 +138,7 @@ public class MapTest   {
   /**
    * Get directMap
    * @return directMap
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -165,7 +166,7 @@ public class MapTest   {
   /**
    * Get indirectMap
    * @return indirectMap
-  **/
+  */
   @ApiModelProperty(value = "")
 
 

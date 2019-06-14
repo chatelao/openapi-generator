@@ -17,8 +17,6 @@
 
 package org.openapitools.codegen;
 
-import static java.util.ServiceLoader.load;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ServiceLoader;
@@ -31,7 +29,7 @@ public class CodegenConfigLoader {
      * @return config class
      */
     public static CodegenConfig forName(String name) {
-        ServiceLoader<CodegenConfig> loader = load(CodegenConfig.class);
+        ServiceLoader<CodegenConfig> loader = ServiceLoader.load(CodegenConfig.class, CodegenConfig.class.getClassLoader());
 
         StringBuilder availableConfigs = new StringBuilder();
 
@@ -45,14 +43,14 @@ public class CodegenConfigLoader {
 
         // else try to load directly
         try {
-            return (CodegenConfig) Class.forName(name).newInstance();
+            return (CodegenConfig) Class.forName(name).getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             throw new GeneratorNotFoundException("Can't load config class with name '".concat(name) + "'\nAvailable:\n" + availableConfigs.toString(), e);
         }
     }
 
     public static List<CodegenConfig> getAll() {
-        ServiceLoader<CodegenConfig> loader = ServiceLoader.load(CodegenConfig.class);
+        ServiceLoader<CodegenConfig> loader = ServiceLoader.load(CodegenConfig.class, CodegenConfig.class.getClassLoader());
         List<CodegenConfig> output = new ArrayList<CodegenConfig>();
         for (CodegenConfig aLoader : loader) {
             output.add(aLoader);

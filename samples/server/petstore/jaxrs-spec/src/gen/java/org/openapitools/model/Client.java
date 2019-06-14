@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public class Client  implements Serializable {
   
-  private @Valid String client = null;
+  private @Valid String client;
 
   /**
    **/
@@ -45,7 +45,7 @@ public class Client  implements Serializable {
       return false;
     }
     Client client = (Client) o;
-    return Objects.equals(client, client.client);
+    return Objects.equals(this.client, client.client);
   }
 
   @Override

@@ -5,16 +5,16 @@ import java.util.ArrayList;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.*;
 import io.swagger.annotations.*;
 
 @ApiModel(description="Describes the result of uploading an image resource")
-
 public class ModelApiResponse   {
   
-  private Integer code = null;
-  private String type = null;
-  private String message = null;
+  private Integer code;
+  private String type;
+  private String message;
 
   /**
    **/

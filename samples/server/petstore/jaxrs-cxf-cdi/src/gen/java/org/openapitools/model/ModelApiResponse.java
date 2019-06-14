@@ -16,14 +16,13 @@ import java.util.Objects;
 import javax.xml.bind.annotation.*;
 
 @ApiModel(description = "Describes the result of uploading an image resource")
-
 public class ModelApiResponse   {
   
-  private Integer code = null;
+  private Integer code;
 
-  private String type = null;
+  private String type;
 
-  private String message = null;
+  private String message;
 
 
   /**

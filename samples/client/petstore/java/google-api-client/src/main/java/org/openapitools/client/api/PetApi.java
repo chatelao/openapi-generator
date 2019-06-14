@@ -44,59 +44,61 @@ public class PetApi {
 
   /**
     * Add a new pet to the store
+    * <p><b>200</b> - successful operation
     * <p><b>405</b> - Invalid input
-    * @param pet Pet object that needs to be added to the store
+    * @param body Pet object that needs to be added to the store
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void addPet(Pet pet) throws IOException {
-        addPetForHttpResponse(pet);
+    public void addPet(Pet body) throws IOException {
+        addPetForHttpResponse(body);
     }
 
   /**
     * Add a new pet to the store
+    * <p><b>200</b> - successful operation
     * <p><b>405</b> - Invalid input
-    * @param pet Pet object that needs to be added to the store
+    * @param body Pet object that needs to be added to the store
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void addPet(Pet pet, Map<String, Object> params) throws IOException {
-        addPetForHttpResponse(pet, params);
+    public void addPet(Pet body, Map<String, Object> params) throws IOException {
+        addPetForHttpResponse(body, params);
     }
 
-    public HttpResponse addPetForHttpResponse(Pet pet) throws IOException {
-        // verify the required parameter 'pet' is set
-        if (pet == null) {
-            throw new IllegalArgumentException("Missing the required parameter 'pet' when calling addPet");
+    public HttpResponse addPetForHttpResponse(Pet body) throws IOException {
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'body' when calling addPet");
         }
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/pet");
 
         String url = uriBuilder.build().toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = apiClient.new JacksonJsonHttpContent(pet);
+        HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
     }
 
-      public HttpResponse addPetForHttpResponse(java.io.InputStream pet, String mediaType) throws IOException {
-          // verify the required parameter 'pet' is set
-              if (pet == null) {
-              throw new IllegalArgumentException("Missing the required parameter 'pet' when calling addPet");
+      public HttpResponse addPetForHttpResponse(java.io.InputStream body, String mediaType) throws IOException {
+          // verify the required parameter 'body' is set
+              if (body == null) {
+              throw new IllegalArgumentException("Missing the required parameter 'body' when calling addPet");
               }
               UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/pet");
 
               String url = uriBuilder.build().toString();
               GenericUrl genericUrl = new GenericUrl(url);
 
-              HttpContent content = pet == null ?
+              HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
-                new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, pet);
+                new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, body);
               return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
       }
 
-    public HttpResponse addPetForHttpResponse(Pet pet, Map<String, Object> params) throws IOException {
-        // verify the required parameter 'pet' is set
-        if (pet == null) {
-            throw new IllegalArgumentException("Missing the required parameter 'pet' when calling addPet");
+    public HttpResponse addPetForHttpResponse(Pet body, Map<String, Object> params) throws IOException {
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'body' when calling addPet");
         }
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/pet");
 
@@ -121,13 +123,14 @@ public class PetApi {
         String url = uriBuilder.build().toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = apiClient.new JacksonJsonHttpContent(pet);
+        HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
     }
 
 
   /**
     * Deletes a pet
+    * <p><b>200</b> - successful operation
     * <p><b>400</b> - Invalid pet value
     * @param petId Pet id to delete
     * @param apiKey The apiKey parameter
@@ -139,6 +142,7 @@ public class PetApi {
 
   /**
     * Deletes a pet
+    * <p><b>200</b> - successful operation
     * <p><b>400</b> - Invalid pet value
     * @param petId Pet id to delete
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
@@ -471,63 +475,65 @@ public class PetApi {
 
   /**
     * Update an existing pet
+    * <p><b>200</b> - successful operation
     * <p><b>400</b> - Invalid ID supplied
     * <p><b>404</b> - Pet not found
     * <p><b>405</b> - Validation exception
-    * @param pet Pet object that needs to be added to the store
+    * @param body Pet object that needs to be added to the store
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void updatePet(Pet pet) throws IOException {
-        updatePetForHttpResponse(pet);
+    public void updatePet(Pet body) throws IOException {
+        updatePetForHttpResponse(body);
     }
 
   /**
     * Update an existing pet
+    * <p><b>200</b> - successful operation
     * <p><b>400</b> - Invalid ID supplied
     * <p><b>404</b> - Pet not found
     * <p><b>405</b> - Validation exception
-    * @param pet Pet object that needs to be added to the store
+    * @param body Pet object that needs to be added to the store
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void updatePet(Pet pet, Map<String, Object> params) throws IOException {
-        updatePetForHttpResponse(pet, params);
+    public void updatePet(Pet body, Map<String, Object> params) throws IOException {
+        updatePetForHttpResponse(body, params);
     }
 
-    public HttpResponse updatePetForHttpResponse(Pet pet) throws IOException {
-        // verify the required parameter 'pet' is set
-        if (pet == null) {
-            throw new IllegalArgumentException("Missing the required parameter 'pet' when calling updatePet");
+    public HttpResponse updatePetForHttpResponse(Pet body) throws IOException {
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'body' when calling updatePet");
         }
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/pet");
 
         String url = uriBuilder.build().toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = apiClient.new JacksonJsonHttpContent(pet);
+        HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
     }
 
-      public HttpResponse updatePetForHttpResponse(java.io.InputStream pet, String mediaType) throws IOException {
-          // verify the required parameter 'pet' is set
-              if (pet == null) {
-              throw new IllegalArgumentException("Missing the required parameter 'pet' when calling updatePet");
+      public HttpResponse updatePetForHttpResponse(java.io.InputStream body, String mediaType) throws IOException {
+          // verify the required parameter 'body' is set
+              if (body == null) {
+              throw new IllegalArgumentException("Missing the required parameter 'body' when calling updatePet");
               }
               UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/pet");
 
               String url = uriBuilder.build().toString();
               GenericUrl genericUrl = new GenericUrl(url);
 
-              HttpContent content = pet == null ?
+              HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
-                new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, pet);
+                new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, body);
               return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
       }
 
-    public HttpResponse updatePetForHttpResponse(Pet pet, Map<String, Object> params) throws IOException {
-        // verify the required parameter 'pet' is set
-        if (pet == null) {
-            throw new IllegalArgumentException("Missing the required parameter 'pet' when calling updatePet");
+    public HttpResponse updatePetForHttpResponse(Pet body, Map<String, Object> params) throws IOException {
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'body' when calling updatePet");
         }
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/pet");
 
@@ -552,7 +558,7 @@ public class PetApi {
         String url = uriBuilder.build().toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = apiClient.new JacksonJsonHttpContent(pet);
+        HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
     }
 

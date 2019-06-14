@@ -1,11 +1,12 @@
 library openapi.api;
 
-import 'package:http/http.dart';
+import 'package:http/io_client.dart';
 import 'package:jaguar_serializer/jaguar_serializer.dart';
 import 'package:jaguar_retrofit/jaguar_retrofit.dart';
 import 'package:openapi/auth/api_key_auth.dart';
 import 'package:openapi/auth/basic_auth.dart';
 import 'package:openapi/auth/oauth.dart';
+import 'package:jaguar_mimetype/jaguar_mimetype.dart';
 
 import 'package:openapi/api/pet_api.dart';
 import 'package:openapi/api/store_api.dart';
@@ -19,7 +20,8 @@ import 'package:openapi/model/tag.dart';
 import 'package:openapi/model/user.dart';
 
 
-final jsonJaguarRepo = JsonRepo()
+
+final _jsonJaguarRepo = JsonRepo()
 ..add(ApiResponseSerializer())
 ..add(CategorySerializer())
 ..add(OrderSerializer())
@@ -27,6 +29,11 @@ final jsonJaguarRepo = JsonRepo()
 ..add(TagSerializer())
 ..add(UserSerializer())
 ;
+final Map<String, CodecRepo> _converters = {
+    MimeTypes.json: _jsonJaguarRepo,
+};
+
+
 
 final _defaultInterceptors = [OAuthInterceptor(), BasicAuthInterceptor(), ApiKeyAuthInterceptor()];
 
@@ -34,11 +41,12 @@ class JaguarApiGen {
     List<Interceptor> interceptors;
     String basePath = "http://petstore.swagger.io/v2";
     Route _baseRoute;
+    final Duration timeout;
 
     /**
     * Add custom global interceptors, put overrideInterceptors to true to set your interceptors only (auth interceptors will not be added)
     */
-    JaguarApiGen({List<Interceptor> interceptors, bool overrideInterceptors = false, String baseUrl}) {
+    JaguarApiGen({List<Interceptor> interceptors, bool overrideInterceptors = false, String baseUrl, this.timeout = const Duration(minutes: 2)}) {
         _baseRoute = Route(baseUrl ?? basePath).withClient(globalClient ?? IOClient());
         if(interceptors == null) {
             this.interceptors = _defaultInterceptors;
@@ -73,14 +81,14 @@ class JaguarApiGen {
     * Get PetApi instance, base route and serializer can be overridden by a given but be careful,
     * by doing that all interceptors will not be executed
     */
-    PetApi getPetApi({Route base, SerializerRepo serializers}) {
+    PetApi getPetApi({Route base, Map<String, CodecRepo> converters}) {
         if(base == null) {
             base = _baseRoute;
         }
-        if(serializers == null) {
-            serializers = jsonJaguarRepo;
+        if(converters == null) {
+            converters = _converters;
         }
-        return PetApi(base: base, serializers: serializers);
+        return PetApi(base: base, converters: converters, timeout: timeout);
     }
 
     
@@ -88,14 +96,14 @@ class JaguarApiGen {
     * Get StoreApi instance, base route and serializer can be overridden by a given but be careful,
     * by doing that all interceptors will not be executed
     */
-    StoreApi getStoreApi({Route base, SerializerRepo serializers}) {
+    StoreApi getStoreApi({Route base, Map<String, CodecRepo> converters}) {
         if(base == null) {
             base = _baseRoute;
         }
-        if(serializers == null) {
-            serializers = jsonJaguarRepo;
+        if(converters == null) {
+            converters = _converters;
         }
-        return StoreApi(base: base, serializers: serializers);
+        return StoreApi(base: base, converters: converters, timeout: timeout);
     }
 
     
@@ -103,14 +111,14 @@ class JaguarApiGen {
     * Get UserApi instance, base route and serializer can be overridden by a given but be careful,
     * by doing that all interceptors will not be executed
     */
-    UserApi getUserApi({Route base, SerializerRepo serializers}) {
+    UserApi getUserApi({Route base, Map<String, CodecRepo> converters}) {
         if(base == null) {
             base = _baseRoute;
         }
-        if(serializers == null) {
-            serializers = jsonJaguarRepo;
+        if(converters == null) {
+            converters = _converters;
         }
-        return UserApi(base: base, serializers: serializers);
+        return UserApi(base: base, converters: converters, timeout: timeout);
     }
 
     

@@ -9,10 +9,10 @@ namespace {{this}} {
 
 {{classname}}::{{classname}}()
 {
-    {{#vars}}{{#isNotContainer}}{{#isPrimitiveType}}m_{{name}} = {{{defaultValue}}};
+    {{#vars}}{{^isContainer}}{{#isPrimitiveType}}m_{{name}} = {{{defaultValue}}};
     {{/isPrimitiveType}}{{^isPrimitiveType}}{{#isString}}m_{{name}} = {{{defaultValue}}};
     {{/isString}}{{#isDateTime}}m_{{name}} = {{{defaultValue}}};
-    {{/isDateTime}}{{/isPrimitiveType}}{{/isNotContainer}}{{^required}}m_{{name}}IsSet = false;
+    {{/isDateTime}}{{/isPrimitiveType}}{{/isContainer}}{{^required}}m_{{name}}IsSet = false;
     {{/required}}{{/vars}}
 }
 
@@ -25,97 +25,31 @@ void {{classname}}::validate()
     // TODO: implement validation
 }
 
-nlohmann::json {{classname}}::toJson() const
+void to_json(nlohmann::json& j, const {{classname}}& o)
 {
-    nlohmann::json val = nlohmann::json::object();
-
-    {{#vars}}{{#isPrimitiveType}}{{^isListContainer}}{{^required}}if(m_{{name}}IsSet)
-    {
-        val["{{baseName}}"] = m_{{name}};
-    }
-    {{/required}}{{#required}}val["{{baseName}}"] = m_{{name}};
-    {{/required}}{{/isListContainer}}{{/isPrimitiveType}}{{#isListContainer}}{
-        nlohmann::json jsonArray;
-        for( auto& item : m_{{name}} )
-        {
-            jsonArray.push_back({{prefix}}ModelBase::toJson(item));
-        }
-        {{#required}}val["{{baseName}}"] = jsonArray;
-        {{/required}}{{^required}}
-        if(jsonArray.size() > 0)
-        {
-            val["{{baseName}}"] = jsonArray;
-        }
-        {{/required}}
-    }
-    {{/isListContainer}}{{^isListContainer}}{{^isPrimitiveType}}{{^required}}if(m_{{name}}IsSet)
-    {
-        val["{{baseName}}"] = {{prefix}}ModelBase::toJson(m_{{name}});
-    }
-    {{/required}}{{#required}}val["{{baseName}}"] = {{prefix}}ModelBase::toJson(m_{{name}});
-    {{/required}}{{/isPrimitiveType}}{{/isListContainer}}{{/vars}}
-
-    return val;
+    j = nlohmann::json();
+    {{#vars}}
+    {{#required}}j["{{baseName}}"] = o.m_{{name}};{{/required}}{{^required}}if(o.{{nameInCamelCase}}IsSet())
+        j["{{baseName}}"] = o.m_{{name}};{{/required}}
+    {{/vars}}
 }
 
-void {{classname}}::fromJson(nlohmann::json& val)
+void from_json(const nlohmann::json& j, {{classname}}& o)
 {
-    {{#vars}}{{#isPrimitiveType}}{{^isListContainer}}{{^required}}if(val.find("{{baseName}}") != val.end())
+    {{#vars}}
+    {{#required}}j.at("{{baseName}}").get_to(o.m_{{name}});{{/required}}{{^required}}if(j.contains("{{baseName}}"))
     {
-        {{setter}}(val.at("{{baseName}}"));
-    }
-    {{/required}}{{#required}}{{setter}}(val.at("{{baseName}}"));
-    {{/required}}{{/isListContainer}}{{/isPrimitiveType}}{{#isListContainer}}{
-        m_{{name}}.clear();
-        nlohmann::json jsonArray;
-        {{^required}}if(val.find("{{baseName}}") != val.end())
-        {
-        {{/required}}
-        for( auto& item : val["{{baseName}}"] )
-        {
-            {{#isPrimitiveType}}m_{{name}}.push_back(item);
-            {{/isPrimitiveType}}{{^isPrimitiveType}}{{#items.isString}}m_{{name}}.push_back(item);
-            {{/items.isString}}{{^items.isString}}{{#items.isDateTime}}m_{{name}}.push_back(item);
-            {{/items.isDateTime}}{{^items.isDateTime}}
-            if(item.is_null())
-            {
-                m_{{name}}.push_back( {{{items.datatype}}}() );
-            }
-            else
-            {
-                {{{items.datatype}}} newItem;
-                newItem.fromJson(item);
-                m_{{name}}.push_back( newItem );
-            }
-            {{/items.isDateTime}}{{/items.isString}}{{/isPrimitiveType}}
-        }
-        {{^required}}
-        }
-        {{/required}}
-    }
-    {{/isListContainer}}{{^isListContainer}}{{^isPrimitiveType}}{{^required}}if(val.find("{{baseName}}") != val.end())
-    {
-        {{#isString}}{{setter}}(val.at("{{baseName}}"));{{/isString}}{{#isByteArray}}{{setter}}(val.at("{{baseName}}"));{{/isByteArray}}{{#isBinary}}{{setter}}(val.at("{{baseName}}"));
-        {{/isBinary}}{{^isString}}{{#isDateTime}}{{setter}}(val.at("{{baseName}}"));
-        {{/isDateTime}}{{^isDateTime}}{{^isByteArray}}{{^isBinary}}if(!val["{{baseName}}"].is_null())
-        {
-            {{{dataType}}} newItem;
-            newItem.fromJson(val["{{baseName}}"]);
-            {{setter}}( newItem );
-        }
-        {{/isBinary}}{{/isByteArray}}{{/isDateTime}}{{/isString}}
-    }
-    {{/required}}{{#required}}{{#isString}}{{setter}}(val.at("{{baseName}}"));
-    {{/isString}}{{^isString}}{{#isDateTime}}{{setter}}(val.at("{{baseName}}"));
-    {{/isDateTime}}{{/isString}}{{/required}}{{/isPrimitiveType}}{{/isListContainer}}{{/vars}}
+        j.at("{{baseName}}").get_to(o.m_{{name}});
+        o.m_{{name}}IsSet = true;
+    } {{/required}}
+    {{/vars}}
 }
 
-
-{{#vars}}{{^isNotContainer}}{{{dataType}}}& {{classname}}::{{getter}}()
+{{#vars}}{{#isContainer}}{{{dataType}}}& {{classname}}::{{getter}}()
 {
     return m_{{name}};
 }
-{{/isNotContainer}}{{#isNotContainer}}{{{dataType}}} {{classname}}::{{getter}}() const
+{{/isContainer}}{{^isContainer}}{{{dataType}}} {{classname}}::{{getter}}() const
 {
     return m_{{name}};
 }
@@ -124,7 +58,7 @@ void {{classname}}::{{setter}}({{{dataType}}} const{{^isPrimitiveType}}&{{/isPri
     m_{{name}} = value;
     {{^required}}m_{{name}}IsSet = true;{{/required}}
 }
-{{/isNotContainer}}
+{{/isContainer}}
 {{^required}}bool {{classname}}::{{nameInCamelCase}}IsSet() const
 {
     return m_{{name}}IsSet;

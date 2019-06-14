@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public class SpecialModelName  implements Serializable {
   
-  private @Valid Long $specialPropertyName = null;
+  private @Valid Long $specialPropertyName;
 
   /**
    **/
@@ -45,7 +45,7 @@ public class SpecialModelName  implements Serializable {
       return false;
     }
     SpecialModelName $specialModelName = (SpecialModelName) o;
-    return Objects.equals($specialPropertyName, $specialModelName.$specialPropertyName);
+    return Objects.equals(this.$specialPropertyName, $specialModelName.$specialPropertyName);
   }
 
   @Override

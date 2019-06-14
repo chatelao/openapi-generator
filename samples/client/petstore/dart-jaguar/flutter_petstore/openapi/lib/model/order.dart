@@ -1,5 +1,6 @@
 import 'package:jaguar_serializer/jaguar_serializer.dart';
 
+
 part 'order.jser.dart';
 
 class Order {
@@ -24,7 +25,7 @@ class Order {
   
 
   Order(
-    
+      
 
 {
      this.id = null,  
@@ -43,7 +44,8 @@ class Order {
   }
 }
 
-@GenSerializer()
+@GenSerializer(nullableFields: true)
 class OrderSerializer extends Serializer<Order> with _$OrderSerializer {
 
 }
+

@@ -2,10 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "cJSON.h"
-#include "list.h"
-#include "tag.h"
-
+#include "../include/list.h"
 static listEntry_t *listEntry_create(void *data) {
 	listEntry_t *createdListEntry = malloc(sizeof(listEntry_t));
 	if(createdListEntry == NULL) {
@@ -38,8 +35,7 @@ list_t *list_create() {
 	return createdList;
 }
 
-void list_iterateThroughListForward(list_t *list,
-                                    void (*operationToPerform)(
+void list_iterateThroughListForward(list_t *list, void (*operationToPerform)(
 					    listEntry_t *,
 					    void *callbackFunctionUsedData),
                                     void *additionalDataNeededForCallbackFunction)
@@ -65,8 +61,7 @@ void list_iterateThroughListForward(list_t *list,
 	}
 }
 
-void list_iterateThroughListBackward(list_t *list,
-                                     void (*operationToPerform)(
+void list_iterateThroughListBackward(list_t *list, void (*operationToPerform)(
 					     listEntry_t *,
 					     void *callbackFunctionUsedData),
                                      void *additionalDataNeededForCallbackFunction)

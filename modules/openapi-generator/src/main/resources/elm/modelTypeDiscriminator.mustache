@@ -22,11 +22,11 @@ decoder =
             Decode.fail <| "Trying to decode {{classname}}, but {{{discriminatorName}}} " ++ tag ++ " is not supported."
 
 
-encoder : {{classname}} -> Encode.Value
-encoder model =
+encode : {{classname}} -> Encode.Value
+encode model =
     case model of
 {{#mappedModels}}
         {{modelName}}Type subModel ->
-            {{modelName}}.encoder "{{mappingName}}" subModel
+            {{modelName}}.encode "{{mappingName}}" subModel
 
 {{/mappedModels}}

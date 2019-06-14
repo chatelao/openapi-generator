@@ -16,12 +16,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public class Capitalization  implements Serializable {
   
-  private @Valid String smallCamel = null;
-  private @Valid String capitalCamel = null;
-  private @Valid String smallSnake = null;
-  private @Valid String capitalSnake = null;
-  private @Valid String scAETHFlowPoints = null;
-  private @Valid String ATT_NAME = null;
+  private @Valid String smallCamel;
+  private @Valid String capitalCamel;
+  private @Valid String smallSnake;
+  private @Valid String capitalSnake;
+  private @Valid String scAETHFlowPoints;
+  private @Valid String ATT_NAME;
 
   /**
    **/
@@ -136,12 +136,12 @@ public class Capitalization  implements Serializable {
       return false;
     }
     Capitalization capitalization = (Capitalization) o;
-    return Objects.equals(smallCamel, capitalization.smallCamel) &&
-        Objects.equals(capitalCamel, capitalization.capitalCamel) &&
-        Objects.equals(smallSnake, capitalization.smallSnake) &&
-        Objects.equals(capitalSnake, capitalization.capitalSnake) &&
-        Objects.equals(scAETHFlowPoints, capitalization.scAETHFlowPoints) &&
-        Objects.equals(ATT_NAME, capitalization.ATT_NAME);
+    return Objects.equals(this.smallCamel, capitalization.smallCamel) &&
+        Objects.equals(this.capitalCamel, capitalization.capitalCamel) &&
+        Objects.equals(this.smallSnake, capitalization.smallSnake) &&
+        Objects.equals(this.capitalSnake, capitalization.capitalSnake) &&
+        Objects.equals(this.scAETHFlowPoints, capitalization.scAETHFlowPoints) &&
+        Objects.equals(this.ATT_NAME, capitalization.ATT_NAME);
   }
 
   @Override

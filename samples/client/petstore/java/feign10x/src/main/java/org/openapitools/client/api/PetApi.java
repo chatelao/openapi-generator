@@ -20,20 +20,20 @@ public interface PetApi extends ApiClient.Api {
   /**
    * Add a new pet to the store
    * 
-    * @param pet Pet object that needs to be added to the store (required)
+   * @param body Pet object that needs to be added to the store (required)
    */
   @RequestLine("POST /pet")
   @Headers({
     "Content-Type: application/json",
     "Accept: application/json",
   })
-  void addPet(Pet pet);
+  void addPet(Pet body);
 
   /**
    * Deletes a pet
    * 
-    * @param petId Pet id to delete (required)
-    * @param apiKey  (optional)
+   * @param petId Pet id to delete (required)
+   * @param apiKey  (optional)
    */
   @RequestLine("DELETE /pet/{petId}")
   @Headers({
@@ -45,7 +45,7 @@ public interface PetApi extends ApiClient.Api {
   /**
    * Finds Pets by status
    * Multiple status values can be provided with comma separated strings
-    * @param status Status values that need to be considered for filter (required)
+   * @param status Status values that need to be considered for filter (required)
    * @return List&lt;Pet&gt;
    */
   @RequestLine("GET /pet/findByStatus?status={status}")
@@ -89,7 +89,7 @@ public interface PetApi extends ApiClient.Api {
   /**
    * Finds Pets by tags
    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-    * @param tags Tags to filter by (required)
+   * @param tags Tags to filter by (required)
    * @return List&lt;Pet&gt;
    */
   @RequestLine("GET /pet/findByTags?tags={tags}")
@@ -133,7 +133,7 @@ public interface PetApi extends ApiClient.Api {
   /**
    * Find pet by ID
    * Returns a single pet
-    * @param petId ID of pet to return (required)
+   * @param petId ID of pet to return (required)
    * @return Pet
    */
   @RequestLine("GET /pet/{petId}")
@@ -145,21 +145,21 @@ public interface PetApi extends ApiClient.Api {
   /**
    * Update an existing pet
    * 
-    * @param pet Pet object that needs to be added to the store (required)
+   * @param body Pet object that needs to be added to the store (required)
    */
   @RequestLine("PUT /pet")
   @Headers({
     "Content-Type: application/json",
     "Accept: application/json",
   })
-  void updatePet(Pet pet);
+  void updatePet(Pet body);
 
   /**
    * Updates a pet in the store with form data
    * 
-    * @param petId ID of pet that needs to be updated (required)
-    * @param name Updated name of the pet (optional, default to null)
-    * @param status Updated status of the pet (optional, default to null)
+   * @param petId ID of pet that needs to be updated (required)
+   * @param name Updated name of the pet (optional)
+   * @param status Updated status of the pet (optional)
    */
   @RequestLine("POST /pet/{petId}")
   @Headers({
@@ -171,9 +171,9 @@ public interface PetApi extends ApiClient.Api {
   /**
    * uploads an image
    * 
-    * @param petId ID of pet to update (required)
-    * @param additionalMetadata Additional data to pass to server (optional, default to null)
-    * @param file file to upload (optional, default to null)
+   * @param petId ID of pet to update (required)
+   * @param additionalMetadata Additional data to pass to server (optional)
+   * @param file file to upload (optional)
    * @return ModelApiResponse
    */
   @RequestLine("POST /pet/{petId}/uploadImage")
@@ -186,9 +186,9 @@ public interface PetApi extends ApiClient.Api {
   /**
    * uploads an image (required)
    * 
-    * @param petId ID of pet to update (required)
-    * @param requiredFile file to upload (required)
-    * @param additionalMetadata Additional data to pass to server (optional, default to null)
+   * @param petId ID of pet to update (required)
+   * @param requiredFile file to upload (required)
+   * @param additionalMetadata Additional data to pass to server (optional)
    * @return ModelApiResponse
    */
   @RequestLine("POST /fake/{petId}/uploadImageWithRequiredFile")

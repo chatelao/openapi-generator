@@ -28,12 +28,14 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements CodegenConfig {
     @SuppressWarnings("hiding")
     private static final Logger LOGGER = LoggerFactory.getLogger(PhpSymfonyServerCodegen.class);
 
     public static final String BUNDLE_NAME = "bundleName";
+    public static final String BUNDLE_ALIAS = "bundleAlias";
     public static final String COMPOSER_VENDOR_NAME = "composerVendorName";
     public static final String COMPOSER_PROJECT_NAME = "composerProjectName";
     public static final String PHP_LEGACY_SUPPORT = "phpLegacySupport";
@@ -86,10 +88,11 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         srcBasePath = ".";
         setInvokerPackage("OpenAPI\\Server");
         setBundleName("OpenAPIServer");
+        setBundleAlias("open_api_server");
         modelDirName = "Model";
-        docsBasePath = "Resources" + File.separator + "docs";
-        apiDocPath = docsBasePath + File.separator + apiDirName;
-        modelDocPath = docsBasePath + File.separator + modelDirName;
+        docsBasePath = "Resources" + "/" + "docs";
+        apiDocPath = docsBasePath + "/" + apiDirName;
+        modelDocPath = docsBasePath + "/" + modelDirName;
         outputFolder = "generated-code" + File.separator + "php";
         apiTemplateFiles.put("api_controller.mustache", ".php");
         modelTestTemplateFiles.put("testing/model_test.mustache", ".php");
@@ -170,10 +173,12 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         typeMapping.put("binary", "string");
         typeMapping.put("ByteArray", "string");
         typeMapping.put("UUID", "string");
+        typeMapping.put("URI", "string");
 
         cliOptions.add(new CliOption(COMPOSER_VENDOR_NAME, "The vendor name used in the composer package name." +
                 " The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. yaypets"));
         cliOptions.add(new CliOption(BUNDLE_NAME, "The name of the Symfony bundle. The template uses {{bundleName}}"));
+        cliOptions.add(new CliOption(BUNDLE_ALIAS, "The alias of the Symfony bundle. The template uses {{aliasName}}"));
         cliOptions.add(new CliOption(COMPOSER_PROJECT_NAME, "The project name used in the composer package name." +
                 " The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. petstore-client"));
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
@@ -189,7 +194,14 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         this.bundleName = bundleName;
         this.bundleClassName = bundleName + "Bundle";
         this.bundleExtensionName = bundleName + "Extension";
-        this.bundleAlias = snakeCase(bundleName).replaceAll("([A-Z]+)", "\\_$1").toLowerCase(Locale.ROOT);
+    }
+
+    public void setBundleAlias(String alias) {
+        if (alias != null && !alias.isEmpty()) {
+            this.bundleAlias = alias.toLowerCase(Locale.ROOT);
+        } else {
+            this.bundleAlias = snakeCase(bundleName).replaceAll("([A-Z]+)", "\\_$1").toLowerCase(Locale.ROOT);
+        }
     }
 
     public void setPhpLegacySupport(Boolean support) {
@@ -243,6 +255,12 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
             additionalProperties.put(BUNDLE_NAME, bundleName);
         }
 
+        if (additionalProperties.containsKey(BUNDLE_ALIAS)) {
+            this.setBundleAlias((String) additionalProperties.get(BUNDLE_ALIAS));
+        } else {
+            additionalProperties.put(BUNDLE_ALIAS, bundleAlias);
+        }
+
         if (additionalProperties.containsKey(COMPOSER_PROJECT_NAME)) {
             this.setComposerProjectName((String) additionalProperties.get(COMPOSER_PROJECT_NAME));
         } else {
@@ -274,13 +292,13 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         additionalProperties.put("bundleAlias", bundleAlias);
 
         // make api and model src path available in mustache template
-        additionalProperties.put("apiSrcPath", "." + File.separator + toSrcPath(apiPackage, srcBasePath));
-        additionalProperties.put("modelSrcPath", "." + File.separator + toSrcPath(modelPackage, srcBasePath));
-        additionalProperties.put("testsSrcPath", "." + File.separator + toSrcPath(testsPackage, srcBasePath));
-        additionalProperties.put("apiTestsSrcPath", "." + File.separator + toSrcPath(apiTestsPackage, srcBasePath));
-        additionalProperties.put("modelTestsSrcPath", "." + File.separator + toSrcPath(modelTestsPackage, srcBasePath));
-        additionalProperties.put("apiTestPath", "." + File.separator + testsDirName + File.separator + apiDirName);
-        additionalProperties.put("modelTestPath", "." + File.separator + testsDirName + File.separator + modelDirName);
+        additionalProperties.put("apiSrcPath", "." + "/" + toSrcPath(apiPackage, srcBasePath));
+        additionalProperties.put("modelSrcPath", "." + "/" + toSrcPath(modelPackage, srcBasePath));
+        additionalProperties.put("testsSrcPath", "." + "/" + toSrcPath(testsPackage, srcBasePath));
+        additionalProperties.put("apiTestsSrcPath", "." + "/" + toSrcPath(apiTestsPackage, srcBasePath));
+        additionalProperties.put("modelTestsSrcPath", "." + "/" + toSrcPath(modelTestsPackage, srcBasePath));
+        additionalProperties.put("apiTestPath", "." + "/" + testsDirName + "/" + apiDirName);
+        additionalProperties.put("modelTestPath", "." + "/" + testsDirName + "/" + modelDirName);
 
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
@@ -424,6 +442,10 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
                     var.vendorExtensions.put("x-parameterType", typeHint);
                 }
 
+                if (var.isContainer) {
+                    var.vendorExtensions.put("x-parameterType", getTypeHint(var.dataType + "[]"));
+                }
+
                 // Create a variable to display the correct data type in comments for models
                 var.vendorExtensions.put("x-commentType", var.dataType);
                 if (var.isContainer) {
@@ -564,14 +586,14 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         if (name.isEmpty()) {
             return "DefaultApiInterface";
         }
-        return org.openapitools.codegen.utils.StringUtils.camelize(name, false) + "ApiInterface";
+        return camelize(name, false) + "ApiInterface";
     }
 
     protected String toControllerName(String name) {
         if (name.isEmpty()) {
             return "DefaultController";
         }
-        return org.openapitools.codegen.utils.StringUtils.camelize(name, false) + "Controller";
+        return camelize(name, false) + "Controller";
     }
 
     protected String toSymfonyService(String name) {

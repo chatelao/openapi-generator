@@ -10,8 +10,9 @@
 -}
 
 
-module Data.User exposing (User, decoder, encoder)
+module Data.User exposing (User, decoder, encode)
 
+import Dict exposing (Dict)
 import Json.Decode as Decode exposing (Decoder)
 import Json.Decode.Pipeline exposing (decode, optional, required)
 import Json.Encode as Encode
@@ -44,8 +45,8 @@ decoder =
         |> optional "userStatus" (Decode.nullable Decode.int) Nothing
 
 
-encoder : User -> Encode.Value
-encoder model =
+encode : User -> Encode.Value
+encode model =
     Encode.object
         [ ( "id", Maybe.withDefault Encode.null (Maybe.map Encode.int model.id) )
         , ( "username", Maybe.withDefault Encode.null (Maybe.map Encode.string model.username) )

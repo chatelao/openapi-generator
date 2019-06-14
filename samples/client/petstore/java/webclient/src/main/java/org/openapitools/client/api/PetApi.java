@@ -6,7 +6,6 @@ import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -51,16 +50,17 @@ public class PetApi {
     /**
      * Add a new pet to the store
      * 
+     * <p><b>200</b> - successful operation
      * <p><b>405</b> - Invalid input
-     * @param pet Pet object that needs to be added to the store
+     * @param body Pet object that needs to be added to the store
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> addPet(Pet pet) throws RestClientException {
-        Object postBody = pet;
+    public Mono<Void> addPet(Pet body) throws RestClientException {
+        Object postBody = body;
         
-        // verify the required parameter 'pet' is set
-        if (pet == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'pet' when calling addPet");
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling addPet");
         }
         
         String path = UriComponentsBuilder.fromPath("/pet").build().toUriString();
@@ -84,6 +84,7 @@ public class PetApi {
     /**
      * Deletes a pet
      * 
+     * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid pet value
      * @param petId Pet id to delete
      * @param apiKey The apiKey parameter
@@ -235,18 +236,19 @@ public class PetApi {
     /**
      * Update an existing pet
      * 
+     * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid ID supplied
      * <p><b>404</b> - Pet not found
      * <p><b>405</b> - Validation exception
-     * @param pet Pet object that needs to be added to the store
+     * @param body Pet object that needs to be added to the store
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> updatePet(Pet pet) throws RestClientException {
-        Object postBody = pet;
+    public Mono<Void> updatePet(Pet body) throws RestClientException {
+        Object postBody = body;
         
-        // verify the required parameter 'pet' is set
-        if (pet == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'pet' when calling updatePet");
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling updatePet");
         }
         
         String path = UriComponentsBuilder.fromPath("/pet").build().toUriString();

@@ -18,17 +18,16 @@
 package org.openapitools.codegen.languages;
 
 import org.apache.commons.lang3.BooleanUtils;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.config.GeneratorProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 
 public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
@@ -41,12 +40,17 @@ public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
     public JavaUndertowServerCodegen() {
         super();
 
-        sourceFolder = "src/main/java";
-        apiTestTemplateFiles.clear(); // TODO: add test template
-        embeddedTemplateDir = templateDir = "undertow";
+        embeddedTemplateDir = templateDir = "java-undertow-server";
         invokerPackage = "org.openapitools.handler";
         artifactId = "openapi-undertow-server";
         dateLibrary = "legacy"; //TODO: add joda support
+
+        // clioOptions default redifinition need to be updated
+        updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
+        updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
+        updateOption(this.DATE_LIBRARY, this.getDateLibrary());
+
+        apiTestTemplateFiles.clear(); // TODO: add test template
 
         // clear model and api doc template as this codegen
         // does not support auto-generated markdown doc at the moment
@@ -54,17 +58,17 @@ public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
         modelDocTemplateFiles.remove("model_doc.mustache");
         apiDocTemplateFiles.remove("api_doc.mustache");
 
-        if(System.getProperty("swagger.codegen.undertow.apipackage") != null && System.getProperty("openapi.codegen.undertow.apipackage") == null) {
+        if(GeneratorProperties.getProperty("swagger.codegen.undertow.apipackage") != null && GeneratorProperties.getProperty("openapi.codegen.undertow.apipackage") == null) {
             LOGGER.warn("System property 'swagger.codegen.undertow.apipackage' was renamed to 'swagger.codegen.undertow.apipackage'");
-            apiPackage = System.getProperty("swagger.codegen.undertow.apipackage", "org.openapitools.handler");
+            apiPackage = GeneratorProperties.getProperty("swagger.codegen.undertow.apipackage", "org.openapitools.handler");
         } else {
-            apiPackage = System.getProperty("openapi.codegen.undertow.apipackage", "org.openapitools.handler");
+            apiPackage = GeneratorProperties.getProperty("openapi.codegen.undertow.apipackage", "org.openapitools.handler");
         }
-        if(System.getProperty("swagger.codegen.undertow.modelpackage") != null && System.getProperty("openapi.codegen.undertow.modelpackage") == null) {
+        if(GeneratorProperties.getProperty("swagger.codegen.undertow.modelpackage") != null && GeneratorProperties.getProperty("openapi.codegen.undertow.modelpackage") == null) {
             LOGGER.warn("System property 'swagger.codegen.undertow.modelpackage' was renamed to 'openapi.codegen.undertow.modelpackage'");
-            modelPackage = System.getProperty("swagger.codegen.undertow.modelpackage", "org.openapitools.model");
+            modelPackage = GeneratorProperties.getProperty("swagger.codegen.undertow.modelpackage", "org.openapitools.model");
         } else {
-            modelPackage = System.getProperty("openapi.codegen.undertow.modelpackage", "org.openapitools.model");
+            modelPackage = GeneratorProperties.getProperty("openapi.codegen.undertow.modelpackage", "org.openapitools.model");
         }
 
         additionalProperties.put("title", title);
@@ -202,6 +206,6 @@ public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
             return "DefaultHandler";
         }
         name = name.replaceAll("[^a-zA-Z0-9]+", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-        return org.openapitools.codegen.utils.StringUtils.camelize(name) + "Handler";
+        return camelize(name) + "Handler";
     }
 }

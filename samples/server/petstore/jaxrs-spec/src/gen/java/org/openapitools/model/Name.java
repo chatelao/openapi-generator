@@ -12,16 +12,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
+
 /**
  * Model for testing model name same as property name
  **/
 @ApiModel(description = "Model for testing model name same as property name")
 public class Name  implements Serializable {
   
-  private @Valid Integer name = null;
-  private @Valid Integer snakeCase = null;
-  private @Valid String property = null;
-  private @Valid Integer _123number = null;
+  private @Valid Integer name;
+  private @Valid Integer snakeCase;
+  private @Valid String property;
+  private @Valid Integer _123number;
 
   /**
    **/
@@ -102,10 +103,10 @@ public class Name  implements Serializable {
       return false;
     }
     Name name = (Name) o;
-    return Objects.equals(name, name.name) &&
-        Objects.equals(snakeCase, name.snakeCase) &&
-        Objects.equals(property, name.property) &&
-        Objects.equals(_123number, name._123number);
+    return Objects.equals(this.name, name.name) &&
+        Objects.equals(this.snakeCase, name.snakeCase) &&
+        Objects.equals(this.property, name.property) &&
+        Objects.equals(this._123number, name._123number);
   }
 
   @Override
